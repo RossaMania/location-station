@@ -1,7 +1,10 @@
-import React from 'react';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  return <h1>Let's start!</h1>;
+  return <div>
+  <Outlet />
+  </div>;
 }
 
 export default App;
