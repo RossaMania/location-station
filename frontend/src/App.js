@@ -1,10 +1,17 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 function App() {
-  return <div>
-  <Outlet />
-  </div>;
+  return (
+    <>
+      <MainNavigation />
+      <main>
+        <Outlet />
+      </main>
+    </>
+  );
+
 }
 
 export default App;
