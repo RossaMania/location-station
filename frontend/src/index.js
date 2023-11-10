@@ -13,12 +13,14 @@ import {
 
 import Users from "./user/pages/Users";
 import NewPlace from "./places/pages/NewPlace";
+import UserPlaces from "./places/pages/UserPlaces";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
     <Route index={true} path="/" element={<Users />} />
     <Route path="/places/new" element={<NewPlace />} />
+    <Route path="" element={<UserPlaces />} />
     </Route>
   )
 );
