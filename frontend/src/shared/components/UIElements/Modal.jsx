@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, forwardRef } from "react";
 import ReactDOM from "react-dom"; // This is a package that allows us to render our react app to the DOM.
 import { CSSTransition } from "react-transition-group";
 
 import "./Modal.css";
 import Backdrop from "./Backdrop";
 
-const ModalOverlay = React.forwardRef((props, ref) => {
+const ModalOverlay = forwardRef((props, ref) => {
   // This is the content that will be rendered to the DOM when the Modal component is called in another component.
   const content = (
     <div ref={ref} className={`modal $(props.className)`} style={props.style}>
