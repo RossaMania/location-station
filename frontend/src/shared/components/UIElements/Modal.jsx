@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReactDOM from "react-dom"; // This is a package that allows us to render our react app to the DOM.
 import { CSSTransition } from "react-transition-group";
 
@@ -33,7 +33,7 @@ const ModalOverlay = React.forwardRef((props, ref) => {
 
 const Modal = (props) => {
 
-  const nodeRef = React.useRef(null); // This is a reference to the ModalOverlay component that we created above.
+  const nodeRef = useRef(null); // This is a reference to the ModalOverlay component that we created above.
 
   return (
     <>
