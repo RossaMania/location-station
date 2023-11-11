@@ -39,7 +39,7 @@ const Modal = (props) => {
     <>
       {props.show && <Backdrop onClick={props.onCancel} />} {/* This is a ternary operator that checks if props.show is true. If it is, then it renders the Backdrop component. */}
       <CSSTransition in={props.show} mountOnEnter unmountOnExit timeout={200} className="modal">
-        <ModalOverlay {...props} /> {/* This is a spread operator that spreads all the props from the Modal component to the ModalOverlay component. */}
+        <ModalOverlay {...props} /> {/* This is a spread operator that takes all the key-value pairs of the props object, and spreads them all as attributes to the ModalOverlay component. */}
       </CSSTransition>
     </>
   )
