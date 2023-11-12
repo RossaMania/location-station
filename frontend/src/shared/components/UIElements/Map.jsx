@@ -1,11 +1,20 @@
 import React from "react";
+import GoogleMapReact from "google-map-react";
 
 import "./Map.css";
 
-const Map = (props) => {
-  return (
-    <div className={`map ${props.className}`} style={props.style}>Map</div>
-  )
-}
+const Map = ({center, zoom}) => {
 
-export default Map
+  return (
+    <div style={{ height: "250px", width: "100%" }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
+        defaultCenter={center}
+        defaultZoom={zoom}
+      >
+      </GoogleMapReact>
+    </div>
+  );
+};
+
+export default Map;
