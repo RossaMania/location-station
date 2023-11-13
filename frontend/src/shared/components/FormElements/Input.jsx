@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import { validate } from "../../utils/validators.jsx";
 
@@ -30,6 +30,16 @@ const Input = (props) => {
     isValid: false,
     isTouched: false,
   });
+
+  const { id, onInput } = props; // destructuring props.
+
+  const { value, isValid } = inputState; // destructuring inputState.
+
+  useEffect(() => {
+    // props.onInput is a function that is passed from NewPlace.jsx as a prop.
+    // props.id, inputState.value, and inputState.isValid are passed from NewPlace.jsx in the func as props.
+    onInput(id, value, isValid);
+  }, [id, value, isValid, onInput])
 
   const changeHandler = (event) => {
     console.log(event.target.value);
