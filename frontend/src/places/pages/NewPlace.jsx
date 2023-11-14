@@ -12,10 +12,11 @@ const formReducer = (state, action) => {
       let formIsValid = true;
       for (const inputId in state.inputs) {
         if (inputId === action.inputId) {
-          // if inputId is equal to action.inputId, then check if action.isValid is true.
+          // if inputId is equal to action.inputId, this is the input the user changed. Check if action.isValid is true.
           formIsValid = formIsValid && action.isValid;
         } else {
-          // if inputId is not equal to action.inputId, then check if state.inputs[inputId].isValid is true.
+          // if inputId is not equal to action.inputId, this is the other inputs in the form.
+          // The user didn't change these values. Check if state.inputs[inputId].isValid is true.
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
@@ -53,8 +54,13 @@ const NewPlace = () => {
     dispatch({type: "INPUT_CHANGE", inputId: id, value: value, isValid: isValid});
   }, []);
 
+  const placeSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
+  }
+
   return (
-    <form className="place-form">
+    <form className="place-form" onSubmit={placeSubmitHandler}>
       <Input
       id="title"
         element="input"
