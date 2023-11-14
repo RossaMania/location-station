@@ -3,15 +3,28 @@ import React from "react";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators.jsx";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import { useForm } from "../../shared/hooks/form-hook.jsx";
 
 import "./PlaceForm.css";
 
 
 const NewPlace = () => {
 
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({type: "INPUT_CHANGE", inputId: id, value: value, isValid: isValid});
-  }, []);
+  const [formState, inputHandler] = useForm({
+    title: {
+      value: "",
+      isValid: false,
+    },
+    description: {
+      value: "",
+      isValid: false,
+    },
+    address: {
+      value: "",
+      isValid: false,
+    }
+  }, false);
+
 
   const placeSubmitHandler = (event) => {
     event.preventDefault();
