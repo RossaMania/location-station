@@ -2,6 +2,7 @@ import React, { useCallback, useReducer } from "react";
 
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators.jsx";
 import Input from "../../shared/components/FormElements/Input";
+import Button from "../../shared/components/FormElements/Button";
 
 import "./NewPlace.css";
 
@@ -72,6 +73,7 @@ const NewPlace = () => {
         errorText="Please enter a valid description (at least 5 characters)."
         onInput={inputHandler}
       />
+      <Button type="submit" disabled={!formState.isValid}>ADD PLACE</Button>
     </form>
   );
 };
