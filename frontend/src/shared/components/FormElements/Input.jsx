@@ -26,9 +26,9 @@ const Input = (props) => {
   // useReducer state initialization.
   // useReducer returns an array with 2 elements: state and dispatch function (which is used to dispatch actions to the reducer function).
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: "",
+    value: props.value || "",
     isValid: false,
-    isTouched: false,
+    isTouched: props.valid || false,
   });
 
   const { id, onInput } = props; // destructuring props.

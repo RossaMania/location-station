@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
-import { VALIDATOR_REQUIRE } from "../../shared/utils/validators";
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators";
 import Button from "../../shared/components/FormElements/Button";
 
 const DUMMY_PLACES = [
@@ -63,10 +63,10 @@ const UpdatePlace = () => {
         element="textarea"
         type="text"
         label="Description"
-        validators={[VALIDATOR_REQUIRE()]}
+        validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description (at least 5 characters)."
         onInput={() => {}}
-        value={identifiedPlace.title}
+        value={identifiedPlace.description}
         valid={true}
       />
       <Button type="submit" disabled={true}>UPDATE PLACE</Button>
