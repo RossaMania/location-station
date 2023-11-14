@@ -58,7 +58,7 @@ const UpdatePlace = () => {
         errorText="Please enter a valid title."
         onInput={() => {}}
         value={identifiedPlace.title}
-        valid={true}
+        isValid={true}
       />
       <Input
         id="description"
@@ -69,7 +69,7 @@ const UpdatePlace = () => {
         errorText="Please enter a valid description (at least 5 characters)."
         onInput={() => {}}
         value={identifiedPlace.description}
-        valid={true}
+        isValid={true}
       />
       <Button type="submit" disabled={true}>UPDATE PLACE</Button>
     </form>
