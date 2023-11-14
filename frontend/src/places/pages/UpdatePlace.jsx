@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import { VALIDATOR_REQUIRE } from "../../shared/utils/validators";
+import Button from "../../shared/components/FormElements/Button";
 
 const DUMMY_PLACES = [
   {
@@ -68,6 +69,7 @@ const UpdatePlace = () => {
         value={identifiedPlace.title}
         valid={true}
       />
+      <Button type="submit" disabled={true}>UPDATE PLACE</Button>
     </form>
   );
 };
