@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators";
@@ -37,28 +37,48 @@ const DUMMY_PLACES = [
 ];
 
 const UpdatePlace = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { placeId } = useParams(); // useParams() returns an object with all the params that were passed in the URL.
 
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      title: {
+        value: "",
+        isValid: false,
+      },
+      description: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
+  );
+
   const identifiedPlace = DUMMY_PLACES.find((place) => place.id === placeId); // find the place with the id of placeId.
+
+  useEffect(() => {
+      setFormData(
+        {
+          title: {
+            value: identifiedPlace.title,
+            isValid: true,
+          },
+          description: {
+            value: identifiedPlace.description,
+            isValid: true,
+          },
+        },
+        true
+      );
+      setIsLoading(false);
+  }, [setFormData, identifiedPlace])
+
 
   const placeUpdateSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
   };
 
-    const [formState, inputHandler] = useForm(
-      {
-        title: {
-          value: identifiedPlace.title,
-          isValid: true,
-        },
-        description: {
-          value: identifiedPlace.description,
-          isValid: true,
-        },
-      },
-      true
-    );
 
   if (!identifiedPlace) {
     return (
@@ -67,6 +87,15 @@ const UpdatePlace = () => {
       </div>
     );
   }
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <h2>Loading... Loading...</h2>
+      </div>
+    );
+  }
+
   return (
     <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
