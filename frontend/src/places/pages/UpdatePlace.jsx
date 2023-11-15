@@ -41,6 +41,11 @@ const UpdatePlace = () => {
 
   const identifiedPlace = DUMMY_PLACES.find((place) => place.id === placeId); // find the place with the id of placeId.
 
+  const placeUpdateSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs);
+  };
+
     const [formState, inputHandler] = useForm(
       {
         title: {
@@ -63,7 +68,7 @@ const UpdatePlace = () => {
     );
   }
   return (
-    <form className="place-form">
+    <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
         id="title"
         element="input"
