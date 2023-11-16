@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from "../../shared/utils/validators";
@@ -9,6 +9,8 @@ import "./Authenticate.css";
 import Card from "../../shared/components/UIElements/Card";
 
 const Authenticate = () => {
+
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [formState, inputHandler] = useForm(
     {
@@ -29,6 +31,7 @@ const Authenticate = () => {
   );
 
   const switchModeHandler = () => {
+    setIsLoginMode((prevMode) => !prevMode);
     console.log("SWITCHED!");
   }
 
@@ -61,7 +64,7 @@ const Authenticate = () => {
           onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>
-          LOGIN
+          {isLoginMode ? "LOGIN" : "SIGNUP"}
         </Button>
       </form>
       <Button inverse onClick={switchModeHandler}>SWITCH TO SIGN UP</Button>
