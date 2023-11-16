@@ -28,6 +28,10 @@ const Authenticate = () => {
     false
   );
 
+  const switchModeHandler = () => {
+    console.log("SWITCHED!");
+  }
+
   const authSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
@@ -60,6 +64,7 @@ const Authenticate = () => {
           LOGIN
         </Button>
       </form>
+      <Button inverse onClick={switchModeHandler}>SWITCH TO SIGN UP</Button>
     </Card>
   );
 }
