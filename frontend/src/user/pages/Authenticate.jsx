@@ -27,9 +27,15 @@ const Authenticate = () => {
     },
     false
   );
+
+  const authSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
+  }
+
   return (
     <Card className="authentication">
-      <form>
+      <form onSubmit={authSubmitHandler}>
         <Input
           id="email"
           element="input"
