@@ -63,7 +63,7 @@ const Authenticate = () => {
 
   return (
     <Card className="authentication">
-      <h2>LOG IN</h2>
+      {isLoginMode ? <h2>LOG IN</h2> : <h2>SIGN UP</h2> /* If isLoginMode is true, display "LOG IN". Else, display "SIGN UP". */}
       <hr />
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
