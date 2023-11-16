@@ -6,6 +6,7 @@ import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
 
 import "./Authenticate.css";
+import Card from "../../shared/components/UIElements/Card";
 
 const Authenticate = () => {
 
@@ -27,12 +28,12 @@ const Authenticate = () => {
     false
   );
   return (
-    <div>
+    <Card className="authentication">
       <form>
         <Input
           id="email"
           element="input"
-          type="text"
+          type="email"
           label="E-Mail"
           validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid e-mail address."
@@ -51,7 +52,7 @@ const Authenticate = () => {
           LOGIN
         </Button>
       </form>
-    </div>
+    </Card>
   );
 }
 
