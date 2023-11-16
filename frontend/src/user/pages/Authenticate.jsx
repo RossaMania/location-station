@@ -43,7 +43,7 @@ const Authenticate = () => {
   return (
     <Card className="authentication">
       <form onSubmit={authSubmitHandler}>
-      <h2>LOGIN</h2>
+      <h2>LOG IN</h2>
       <hr />
         <Input
           id="email"
@@ -64,10 +64,10 @@ const Authenticate = () => {
           onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>
-          {isLoginMode ? "LOGIN" : "SIGNUP"}
+          {isLoginMode ? "LOG IN" : "SIGN UP"}
         </Button>
       </form>
-      <Button inverse onClick={switchModeHandler}>SWITCH TO SIGN UP</Button>
+      <Button inverse onClick={switchModeHandler}>SWITCH TO {isLoginMode ? "SIGN UP" : "LOG IN"}</Button>
     </Card>
   );
 }
