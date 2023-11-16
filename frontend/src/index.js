@@ -15,6 +15,7 @@ import Users from "./user/pages/Users";
 import NewPlace from "./places/pages/NewPlace";
 import UserPlaces from "./places/pages/UserPlaces";
 import UpdatePlace from "./places/pages/UpdatePlace";
+import Authenticate from "./user/pages/Authenticate";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
     <Route path="/:userId/places" element={<UserPlaces />} />
     <Route path="/places/new" element={<NewPlace />} />
     <Route path="/places/:placeId" element={<UpdatePlace />} />
+    <Route path="/auth" element={<Authenticate />} />
     </Route>
   )
 );
