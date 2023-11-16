@@ -5,6 +5,9 @@ const formReducer = (state, action) => {
     case "INPUT_CHANGE":
       let formIsValid = true;
       for (const inputId in state.inputs) {
+        if (!state.inputs[inputId]) {
+          continue; // if state.inputs[inputId] is undefined, skip this iteration of the loop.
+        }
         if (inputId === action.inputId) {
           // if inputId is equal to action.inputId, this is the input the user changed. Check if action.isValid is true.
           formIsValid = formIsValid && action.isValid;

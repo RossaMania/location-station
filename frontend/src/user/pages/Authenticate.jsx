@@ -15,7 +15,7 @@ import Card from "../../shared/components/UIElements/Card";
 const Authenticate = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
         value: "",
@@ -24,16 +24,34 @@ const Authenticate = () => {
       password: {
         value: "",
         isValid: false,
-      },
-      address: {
-        value: "",
-        isValid: false,
-      },
+      }
     },
     false
   );
 
   const switchModeHandler = () => {
+    if (!isLoginMode) {
+      setFormData(
+        {
+          // Spread out the inputs. Keep the email and password states, and reset the name to "undefined".
+          ...formState.inputs,
+          name: undefined,
+        },
+        // If the email and password are valid, set the form to valid.
+        formState.inputs.email.isValid && formState.inputs.password.isValid
+      );
+    } else { // If the user is switching from login to signup, reset the name input.
+      setFormData(
+        {
+          ...formState.inputs, // Spread out the inputs (email and password) and add the name input.
+          name: {
+            value: "",
+            isValid: false
+          } // Set the name to an empty string and isValid to false (because name input is blank.
+        },
+        false // Set the form to invalid since the name input is blank and not valid.
+      );
+    }
     setIsLoginMode((prevMode) => !prevMode);
     console.log("SWITCHED!");
   };
@@ -56,7 +74,7 @@ const Authenticate = () => {
             label="Your Name"
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a name."
-            onChange={inputHandler}
+            onInput={inputHandler}
           />
         )}
         <Input
