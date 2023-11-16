@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from "../../shared/utils/validators";
+import {
+  VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+} from "../../shared/utils/validators";
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
 
@@ -9,7 +13,6 @@ import "./Authenticate.css";
 import Card from "../../shared/components/UIElements/Card";
 
 const Authenticate = () => {
-
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [formState, inputHandler] = useForm(
@@ -33,18 +36,29 @@ const Authenticate = () => {
   const switchModeHandler = () => {
     setIsLoginMode((prevMode) => !prevMode);
     console.log("SWITCHED!");
-  }
+  };
 
   const authSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
-  }
+  };
 
   return (
     <Card className="authentication">
-      <form onSubmit={authSubmitHandler}>
       <h2>LOG IN</h2>
       <hr />
+      <form onSubmit={authSubmitHandler}>
+        {!isLoginMode && (
+          <Input
+            element="input"
+            id="name"
+            type="text"
+            label="Your Name"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText="Please enter a name."
+            onChange={inputHandler}
+          />
+        )}
         <Input
           id="email"
           element="input"
@@ -67,9 +81,11 @@ const Authenticate = () => {
           {isLoginMode ? "LOG IN" : "SIGN UP"}
         </Button>
       </form>
-      <Button inverse onClick={switchModeHandler}>SWITCH TO {isLoginMode ? "SIGN UP" : "LOG IN"}</Button>
+      <Button inverse onClick={switchModeHandler}>
+        SWITCH TO {isLoginMode ? "SIGN UP" : "LOG IN"}
+      </Button>
     </Card>
   );
-}
+};
 
-export default Authenticate
+export default Authenticate;
