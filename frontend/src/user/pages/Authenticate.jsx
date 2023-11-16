@@ -1,7 +1,7 @@
 import React from "react";
 
 import Input from "../../shared/components/FormElements/Input";
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators";
+import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from "../../shared/utils/validators";
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
 
@@ -36,12 +36,14 @@ const Authenticate = () => {
   return (
     <Card className="authentication">
       <form onSubmit={authSubmitHandler}>
+      <h2>LOGIN</h2>
+      <hr />
         <Input
           id="email"
           element="input"
           type="email"
           label="E-Mail"
-          validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
+          validators={[VALIDATOR_EMAIL()]}
           errorText="Please enter a valid e-mail address."
           onInput={inputHandler}
         />
