@@ -63,7 +63,13 @@ const Authenticate = () => {
 
   return (
     <Card className="authentication">
-      {isLoginMode ? <h2>LOG IN</h2> : <h2>SIGN UP</h2> /* If isLoginMode is true, display "LOG IN". Else, display "SIGN UP". */}
+      {
+        isLoginMode ? (
+          <h2>LOG IN</h2>
+        ) : (
+          <h2>SIGN UP</h2>
+        ) /* If isLoginMode is true, display "LOG IN". Else, display "SIGN UP". */
+      }
       <hr />
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
@@ -99,8 +105,9 @@ const Authenticate = () => {
           {isLoginMode ? "LOG IN" : "SIGN UP"}
         </Button>
       </form>
+      {isLoginMode ? <h3>Not registered?</h3> : <h3>Already registered?</h3> /* If isLoginMode is true, display "Not registered?". Else, display "Already registered?". */}
       <Button inverse onClick={switchModeHandler}>
-        SWITCH TO {isLoginMode ? "SIGN UP" : "LOG IN"}
+        {isLoginMode ? "SIGN UP" : "LOG IN"}
       </Button>
     </Card>
   );
