@@ -1,30 +1,19 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import { AuthContext } from "./shared/context/auth-context";
+
+import { AuthProvider } from "./shared/hooks/auth-hook";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
 
   return (
-    <>
-      <AuthContext.Provider
-        value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
-      >
+    <AuthProvider>
         <MainNavigation />
         <main>
           <Outlet />
         </main>
-      </AuthContext.Provider>
-    </>
+    </AuthProvider>
   );
 }
 

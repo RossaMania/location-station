@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { AuthContext } from "../../context/auth-context";
+import { useAuth } from "../../hooks/auth-hook";
 
 import "./NavLinks.css";
 
 const NavLinks = () => {
   // useContext hook allows us to use the context in NavLinks without having to wrap the component in the context provider.
   // auth is an object with isLoggedIn, login, and logout properties.
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
 
   return (
     <ul className="nav-links">

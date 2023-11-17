@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import "./PlaceItem.css";
 
@@ -6,11 +6,11 @@ import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
-import { AuthContext } from "../../shared/context/auth-context";
+import { useAuth } from "../../shared/hooks/auth-hook";
 
 const PlaceItem = (props) => {
 
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
 
   const [showMap, setShowMap] = useState(false);
 

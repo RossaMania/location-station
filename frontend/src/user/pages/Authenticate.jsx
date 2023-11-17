@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 
 import {
@@ -14,11 +14,11 @@ import Card from "../../shared/components/UIElements/Card";
 import "./Authenticate.css";
 
 import { useForm } from "../../shared/hooks/form-hook";
-import { AuthContext } from "../../shared/context/auth-context";
+import { useAuth } from "../../shared/hooks/auth-hook";
 
 const Authenticate = () => {
 
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
 
   const [isLoginMode, setIsLoginMode] = useState(true);
 
