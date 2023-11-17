@@ -66,6 +66,7 @@ const Authenticate = () => {
   const authSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
+    auth.login(); // Call the login function from the auth-context.js file.
   };
 
   return (
