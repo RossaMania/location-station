@@ -23,7 +23,7 @@ function App() {
         <main>
           <Outlet />
         </main>
-      </AuthContext.Provider> 
+      </AuthContext.Provider>
     </>
   );
 }
