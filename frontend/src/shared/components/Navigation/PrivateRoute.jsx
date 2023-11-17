@@ -6,7 +6,7 @@ export const PrivateRoute = () => {
 
   const auth = useAuth();
 
-  return auth.isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />;
+  return auth.isLoggedIn ? <Outlet /> : <Navigate to="/auth" replace />;
 }
 
 export default PrivateRoute
