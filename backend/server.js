@@ -1,1 +1,17 @@
-console.log("Hello World! Server is running! Better catch it!")
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const placesRoutes = require("./routes/places-routes");
+
+const app = express();
+
+app.use(placesRoutes);
+
+
+
+
+
+
+
+
+app.listen(5000);
