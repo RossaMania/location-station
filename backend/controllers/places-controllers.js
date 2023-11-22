@@ -1,3 +1,5 @@
+const HttpError = require("../models/http-error");
+
 const DUMMY_PLACES = [
   {
     id: "p1",
@@ -52,3 +54,7 @@ const getPlaceByUserId = (req, res, next) => {
 
   res.json({ place: place }); // return the user.
 };
+
+exports.getPlaceById = getPlaceById;
+
+exports.getPlaceByUserId = getPlaceByUserId;
