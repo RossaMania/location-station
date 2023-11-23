@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
+
 const HttpError = require("../models/http-error");
 
 const DUMMY_PLACES = [
@@ -55,6 +57,25 @@ const getPlaceByUserId = (req, res, next) => {
   res.json({ place: place }); // return the user.
 };
 
+const createPlace = (req, res, next) => {
+  const { title, description, coordinates, address, creator } = req.body; // get the data from the request body.
+
+  const createdPlace = {
+    id: uuidv4(),
+    title: title,
+    description: description,
+    location: coordinates,
+    address: address,
+    creator: creator,
+  };
+
+  DUMMY_PLACES.push(createdPlace); // push the created place to the DUMMY_PLACES array.
+
+  res.status(201).json({ place: createdPlace }); // return the created place.
+};
+
 exports.getPlaceById = getPlaceById;
 
 exports.getPlaceByUserId = getPlaceByUserId;
+
+exports.createPlace = createPlace;
