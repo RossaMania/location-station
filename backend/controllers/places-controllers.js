@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
 const HttpError = require("../models/http-error");
 
-const DUMMY_PLACES = [
+let DUMMY_PLACES = [
   {
     id: "p1",
     title: "Empire State Building",
@@ -74,8 +74,43 @@ const createPlace = (req, res, next) => {
   res.status(201).json({ place: createdPlace }); // return the created place.
 };
 
+const updatePlace = (req, res, next) => {
+  const { title, description } = req.body; // get the data from the request body.
+
+  const placeId = req.params.placeId; // get the place ID from the URL.
+
+  const updatedPlace = { ...DUMMY_PLACES.find(p => p.id === placeId) }; // find the place with the id of placeId and copy it to updatedPlace.
+
+  const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId); // find the index of the place with the id of placeId.
+
+  updatedPlace.title = title; // update the title of the place.
+
+  updatedPlace.description = description; // update the description of the place.
+
+  DUMMY_PLACES[placeIndex] = updatedPlace; // update the place in the DUMMY_PLACES array.
+
+  res.status(200).json({ place: updatedPlace }); // return the updated place.
+
+};
+
+const deletePlace = (req, res, next) => {
+  const placeId = req.params.placeId; // get the place ID from the URL.
+
+  // filter out the place with the id of placeId. If id matches, this is the place to be deleted.
+  DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
+
+  res.status(200).json({ message: "Place deleted successfully!" }); // return a message.
+};
+
+
+
+
 exports.getPlaceById = getPlaceById;
 
 exports.getPlaceByUserId = getPlaceByUserId;
 
 exports.createPlace = createPlace;
+
+exports.updatePlace = updatePlace;
+
+exports.deletePlace = deletePlace;
