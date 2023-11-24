@@ -1,5 +1,7 @@
 const express = require("express");
 
+const usersControllers = require("../controllers/users-controllers");
+
 const router = express.Router();
 
 const USERS = [
@@ -32,6 +34,14 @@ const USERS = [
     places: 13,
   },
 ];
+
+router.get("/", );
+
+router.post("/signup", );
+
+router.post("/login", );
+
+
 
 router.get("/:userId", (req, res, next) => {
   const userId = req.params.userId; // get the user ID from the URL.
