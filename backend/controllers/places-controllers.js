@@ -1,5 +1,7 @@
 const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
+const { validationResult } = require("express-validator"); // import validationResult to validate the request body.
+
 const HttpError = require("../models/http-error");
 
 let DUMMY_PLACES = [
@@ -58,6 +60,14 @@ const getPlacesByUserId = (req, res, next) => {
 };
 
 const createPlace = (req, res, next) => {
+
+  const errors = validationResult(req); // validate the request body.
+
+  if (!errors.isEmpty()) {
+    console.log(errors)
+    throw new HttpError("Oops! Invalid inputs passed! Please check your data!", 422);
+  } // check if there are any validation errors.
+
   const { title, description, coordinates, address, creator } = req.body; // get the data from the request body.
 
   const createdPlace = {
