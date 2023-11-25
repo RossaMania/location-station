@@ -115,6 +115,10 @@ const updatePlace = (req, res, next) => {
 const deletePlace = (req, res, next) => {
   const placeId = req.params.placeId; // get the place ID from the URL.
 
+  if (!DUMMY_PLACES.find(p => p.id === placeId)) {
+    throw new HttpError("Oops! No place found with that ID!", 404);
+  }
+
   // filter out the place with the id of placeId. If id matches, this is the place to be deleted.
   DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
 
