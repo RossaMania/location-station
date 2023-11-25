@@ -85,13 +85,23 @@ const createPlace = (req, res, next) => {
 };
 
 const updatePlace = (req, res, next) => {
+  const errors = validationResult(req); // validate the request body.
+
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    throw new HttpError(
+      "Oops! Invalid inputs passed! Please check your data!",
+      422
+    );
+  } // check if there are any validation errors.
+
   const { title, description } = req.body; // get the data from the request body.
 
   const placeId = req.params.placeId; // get the place ID from the URL.
 
-  const updatedPlace = { ...DUMMY_PLACES.find(p => p.id === placeId) }; // find the place with the id of placeId and copy it to updatedPlace.
+  const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) }; // find the place with the id of placeId and copy it to updatedPlace.
 
-  const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId); // find the index of the place with the id of placeId.
+  const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId); // find the index of the place with the id of placeId.
 
   updatedPlace.title = title; // update the title of the place.
 
@@ -100,7 +110,6 @@ const updatePlace = (req, res, next) => {
   DUMMY_PLACES[placeIndex] = updatedPlace; // update the place in the DUMMY_PLACES array.
 
   res.status(200).json({ place: updatedPlace }); // return the updated place.
-
 };
 
 const deletePlace = (req, res, next) => {

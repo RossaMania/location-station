@@ -20,7 +20,14 @@ router.post(
   placesControllers.createPlace
 );
 
-router.patch("/:placeId", placesControllers.updatePlace);
+router.patch(
+  "/:placeId",
+  [
+    check("title").trim().notEmpty(), // check if the title is not empty.
+    check("description").trim().isLength({ min: 5 }), // check if the description is at least 5 characters long.
+  ],
+  placesControllers.updatePlace
+);
 
 router.delete("/:placeId", placesControllers.deletePlace);
 
