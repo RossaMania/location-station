@@ -4,6 +4,9 @@ const { validationResult } = require("express-validator"); // import validationR
 
 const HttpError = require("../models/http-error");
 
+const getCoordinatesForAddress = require("../util/location");
+const { get } = require("../routes/places-routes");
+
 let DUMMY_PLACES = [
   {
     id: "p1",
@@ -59,16 +62,25 @@ const getPlacesByUserId = (req, res, next) => {
   res.json({ place: place }); // return the user.
 };
 
-const createPlace = (req, res, next) => {
-
+const createPlace = async (req, res, next) => {
   const errors = validationResult(req); // validate the request body.
 
   if (!errors.isEmpty()) {
-    console.log(errors)
-    throw new HttpError("Oops! Invalid inputs passed! Please check your data!", 422);
+    console.log(errors);
+    next(
+      new HttpError("Oops! Invalid inputs passed! Please check your data!", 422)
+    );
   } // check if there are any validation errors.
 
-  const { title, description, coordinates, address, creator } = req.body; // get the data from the request body.
+  const { title, description, address, creator } = req.body; // get the data from the request body.
+
+  let coordinates;
+
+  try {
+    coordinates = await getCoordinatesForAddress(address);
+  } catch (error) {
+    return next(error);
+  }
 
   const createdPlace = {
     id: uuidv4(),
@@ -115,7 +127,7 @@ const updatePlace = (req, res, next) => {
 const deletePlace = (req, res, next) => {
   const placeId = req.params.placeId; // get the place ID from the URL.
 
-  if (!DUMMY_PLACES.find(p => p.id === placeId)) {
+  if (!DUMMY_PLACES.find((p) => p.id === placeId)) {
     throw new HttpError("Oops! No place found with that ID!", 404);
   }
 
@@ -124,9 +136,6 @@ const deletePlace = (req, res, next) => {
 
   res.status(200).json({ message: "Place deleted successfully!" }); // return a message.
 };
-
-
-
 
 exports.getPlaceById = getPlaceById;
 
