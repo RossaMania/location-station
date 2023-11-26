@@ -5,7 +5,6 @@ const { validationResult } = require("express-validator"); // import validationR
 const HttpError = require("../models/http-error");
 
 const getCoordinatesForAddress = require("../util/location");
-const { get } = require("../routes/places-routes");
 
 let DUMMY_PLACES = [
   {
