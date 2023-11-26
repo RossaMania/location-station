@@ -1,4 +1,7 @@
 const express = require("express");
+
+require("dotenv").config({ path: "../.env" }); // import dotenv to use environment variables.
+
 const bodyParser = require("body-parser");
 
 const placesRoutes = require("./routes/places-routes");
