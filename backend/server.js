@@ -4,6 +4,8 @@ require("dotenv").config({ path: "../.env" }); // import dotenv to use environme
 
 const bodyParser = require("body-parser");
 
+const mongoose = require("mongoose");
+
 const placesRoutes = require("./routes/places-routes");
 
 const usersRoutes = require("./routes/users-routes");
