@@ -38,4 +38,10 @@ res.json({ message: error.message || "Oops! An unknown error occurred!" });
 })
 
 
-app.listen(5000);
+mongoose.connect("mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster1.kdasflq.mongodb.net/places?retryWrites=true&w=majority").then(() => {
+  app.listen(5000);
+}).catch(error => {
+  console.log(error)
+});
+
+
