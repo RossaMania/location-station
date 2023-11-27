@@ -1,6 +1,6 @@
 const express = require("express");
 
-require("dotenv").config({ path: "../.env" }); // import dotenv to use environment variables.
+require("dotenv").config(); // import dotenv to use environment variables.
 
 const bodyParser = require("body-parser");
 
@@ -38,7 +38,7 @@ res.json({ message: error.message || "Oops! An unknown error occurred!" });
 })
 
 
-mongoose.connect("mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster1.kdasflq.mongodb.net/places?retryWrites=true&w=majority").then(() => {
+mongoose.connect(process.env.MONGO_URI).then(() => {
   app.listen(5000);
 }).catch(error => {
   console.log(error)
