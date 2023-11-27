@@ -6,6 +6,8 @@ const HttpError = require("../models/http-error");
 
 const getCoordinatesForAddress = require("../util/location");
 
+const Place = require("../models/place");
+
 let DUMMY_PLACES = [
   {
     id: "p1",
@@ -81,16 +83,21 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }
 
-  const createdPlace = {
-    id: uuidv4(),
+  const createdPlace = new Place({
     title: title,
     description: description,
-    location: coordinates,
     address: address,
+    location: coordinates,
+    image: "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
     creator: creator,
-  };
+  }); // create a new place.
 
-  DUMMY_PLACES.push(createdPlace); // push the created place to the DUMMY_PLACES array.
+  try {
+    await createdPlace.save(); // save the place to the database.
+  } catch (err) {
+    const error = new HttpError("Oops! Couldn't create a place! Please try again!", 500);
+    return next(error);
+  }
 
   res.status(201).json({ place: createdPlace }); // return the created place.
 };
