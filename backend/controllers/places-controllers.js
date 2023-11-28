@@ -88,7 +88,7 @@ const createPlace = async (req, res, next) => {
     description: description,
     address: address,
     location: coordinates,
-    image: "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
     creator: creator,
   }); // create a new place.
 
@@ -96,6 +96,7 @@ const createPlace = async (req, res, next) => {
     await createdPlace.save(); // save the place to the database.
   } catch (err) {
     const error = new HttpError("Oops! Couldn't create a place! Please try again!", 500);
+    console.log(err)
     return next(error);
   }
 
