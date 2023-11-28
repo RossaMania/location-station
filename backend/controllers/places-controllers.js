@@ -120,7 +120,7 @@ const createPlace = async (req, res, next) => {
   res.status(201).json({ place: createdPlace }); // return the created place.
 };
 
-const updatePlace = (req, res, next) => {
+const updatePlace = async (req, res, next) => {
   const errors = validationResult(req); // validate the request body.
 
   if (!errors.isEmpty()) {
@@ -135,17 +135,29 @@ const updatePlace = (req, res, next) => {
 
   const placeId = req.params.placeId; // get the place ID from the URL.
 
-  const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) }; // find the place with the id of placeId and copy it to updatedPlace.
+  let place;
 
-  const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId); // find the index of the place with the id of placeId.
+  try {
+    place = await Place.findById(placeId); // find the place with the id of placeId.
+  } catch (err) {
+    const error = new HttpError("Oops! Something went wrong! Couldn't find a place to update!", 500);
+    console.log(err)
+    return next(error);
+  }
 
-  updatedPlace.title = title; // update the title of the place.
+  place.title = title; // update the title of the place.
 
-  updatedPlace.description = description; // update the description of the place.
+  place.description = description; // update the description of the place.
 
-  DUMMY_PLACES[placeIndex] = updatedPlace; // update the place in the DUMMY_PLACES array.
+  try {
+    await place.save(); // save the place to the database.
+  } catch (err) {
+    const error = new HttpError("Oops! Something went wrong! Couldn't update the place!", 500);
+    console.log(err)
+    return next(error);
+  }
 
-  res.status(200).json({ place: updatedPlace }); // return the updated place.
+  res.status(200).json({ place: place.toObject({ getters: true }) }); // return the updated place.
 };
 
 const deletePlace = (req, res, next) => {
