@@ -107,15 +107,23 @@ const signup = async (req, res, next) => {
   res.status(201).json({ user: createdUser.toObject({ getters: true }) }); // return the created user.
 };
 
-const login = (req, res, next) => {
+const login = async (req, res, next) => {
 
   const { email, password } = req.body; // get the data from the request body.
 
-  const identifiedUser = DUMMY_USERS.find(u => u.email === email); // find the user with the user email matching email in the request body.
+   let existingUser;
 
-  if (!identifiedUser || identifiedUser.password !== password) { // if there is no user with the email matching email in the request body or the password doesn't match the password in the request body...
-    throw new HttpError("Oops! Could not identify user! Please check credentials!", 401);
-};
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Oops! Logging in failed! Please try again later!", 500);
+    console.log(err)
+    return next(error);
+  }
+
+  if (!existingUser || existingUser.password !== password) {
+    const error = new HttpError("Oops! Invalid e-mail address OR password! Please try again!", 401);
+  }
 
 res.json({ message: "Yay! Logged in successfully!"});
 
