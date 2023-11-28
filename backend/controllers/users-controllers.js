@@ -4,6 +4,8 @@ const { validationResult } = require("express-validator"); // import validationR
 
 const HttpError = require("../models/http-error");
 
+const User = require("../models/user");
+
 const DUMMY_USERS = [
   {
     id: "u1",
@@ -53,7 +55,7 @@ const getUserById = (req, res, next) => {
   res.json({ user: user }); // return the user.
 };
 
-const signup = (req, res, next) => {
+const signup = async (req, res, next) => {
   const errors = validationResult(req); // validate the request body.
 
   if (!errors.isEmpty()) {
@@ -66,20 +68,25 @@ const signup = (req, res, next) => {
 
   const { name, email, password } = req.body; // get the data from the request body.
 
-  const hasUser = DUMMY_USERS.find((u) => u.email === email);
-  if (hasUser) {
-    throw new HttpError(
-      "Oops! Email already exists! Could not create user!",
-      422
-    );
-  } // check if the user already exists.
+  let existingUser;
 
-  const createdUser = {
-    id: uuidv4(), // generate a random ID.
-    name: name,
-    email: email,
-    password: password,
-  };
+  try {
+    const existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Oops! Signing up failed! Please try again later!", 500);
+    console.log(err)
+    return next(error);
+  }
+
+  if (existingUser) {
+    const error = new HttpError("Oops! User already exists! Please login instead!", 422);
+    return next(error);
+  }
+
+
+  const createdUser = new User({
+    
+  });
 
   DUMMY_USERS.push(createdUser); // push the created user object into the DUMMY_USERS array.
 
