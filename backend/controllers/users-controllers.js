@@ -60,18 +60,18 @@ const signup = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     console.log(errors);
-    throw new HttpError(
+    return next(new HttpError(
       "Oops! Invalid inputs passed! Please check your data!",
       422
-    );
+    ));
   } // check if there are any validation errors.
 
-  const { name, email, password } = req.body; // get the data from the request body.
+  const { name, email, password, places } = req.body; // get the data from the request body.
 
   let existingUser;
 
   try {
-    const existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({ email: email });
   } catch (err) {
     const error = new HttpError("Oops! Signing up failed! Please try again later!", 500);
     console.log(err)
@@ -85,12 +85,26 @@ const signup = async (req, res, next) => {
 
 
   const createdUser = new User({
-    
+    name: name,
+    email: email,
+    password: password, // this will be encrypted later.
+    imageUrl: "https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg", // this will be a url to an image.
+    places: places // this will the placeId a user puts in.
   });
 
-  DUMMY_USERS.push(createdUser); // push the created user object into the DUMMY_USERS array.
+  try {
+    await createdUser.save(); // save the user to the database.
+  } catch (err) {
+    const error = new HttpError(
+      "Oops! User sign up failed! Please try again!",
+      500
+    );
+    console.log(err);
+    return next(error);
+  }
 
-  res.status(201).json({ user: createdUser }); // return the created user.
+
+  res.status(201).json({ user: createdUser.toObject({ getters: true }) }); // return the created user.
 };
 
 const login = (req, res, next) => {

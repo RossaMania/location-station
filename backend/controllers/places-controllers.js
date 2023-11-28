@@ -85,7 +85,7 @@ const createPlace = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     console.log(errors);
-    next(
+    return next(
       new HttpError("Oops! Invalid inputs passed! Please check your data!", 422)
     );
   } // check if there are any validation errors.
@@ -125,10 +125,10 @@ const updatePlace = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     console.log(errors);
-    throw new HttpError(
+    return next(new HttpError(
       "Oops! Invalid inputs passed! Please check your data!",
       422
-    );
+    ));
   } // check if there are any validation errors.
 
   const { title, description } = req.body; // get the data from the request body.
