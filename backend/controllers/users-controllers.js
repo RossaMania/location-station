@@ -43,8 +43,21 @@ const DUMMY_USERS = [
   }
 ];
 
-const getUsers = (req, res, next) => {
-  res.json({ users: DUMMY_USERS }); // return the users array.
+const getUsers = async (req, res, next) => {
+
+  let users;
+
+  try {
+    users = await User.find({}, "-password"); // find all users in the database, but don't return the password field.
+  } catch (err) {
+    const error = new HttpError("Oops! Something went wrong! Please try again later!", 500);
+    console.log(err);
+    return next(error);
+  }
+
+  res.json({ users: users.map(user => user.toObject({ getters: true })) }); // return the users.
+
+
 };
 
 const getUserById = (req, res, next) => {
