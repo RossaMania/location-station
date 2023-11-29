@@ -2,6 +2,8 @@ const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
 const { validationResult } = require("express-validator"); // import validationResult to validate the request body.
 
+const mongoose = require("mongoose");
+
 const HttpError = require("../models/http-error");
 
 const getCoordinatesForAddress = require("../util/location");
