@@ -68,20 +68,21 @@ const getPlaceById = async (req, res, next) => {
 const getPlacesByUserId = async (req, res, next) => {
   const userId = req.params.userId; // get the user ID from the URL.
 
-  let places;
+  let userWithPlaces;
+
   try {
-    places = await Place.find({ creator: userId }); // find the places with the creator of userId.
+    userWithPlaces = await User.findById(userId).populate("places") // find the user with the id of userId. Populate the places field.
   } catch (err) {
     const error = new HttpError("Oops! Fetching places failed! Please try again later!", 500);
     console.log(err)
     return next(error);
   }
 
-  if (!places || places.length === 0) {
+  if (!userWithPlaces || userWithPlaces.places.length === 0) {
     return next(new HttpError("Oops! No places found with that user ID!", 404));
   }
 
-  res.json({ places: places.map(place => place.toObject({ getters: true })) }); // return the user.
+  res.json({ places: userWithPlaces.places.map(place => place.toObject({ getters: true })) }); // return the user.
 };
 
 const createPlace = async (req, res, next) => {
