@@ -121,6 +121,13 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }
 
+  if (!user) {
+    const error = new HttpError("Oops! No user found with that ID!", 404);
+    return next(error);
+  }
+
+  console.log(user)
+
 
   try {
     await createdPlace.save(); // save the place to the database.
