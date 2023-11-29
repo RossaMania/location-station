@@ -130,7 +130,12 @@ const createPlace = async (req, res, next) => {
 
 
   try {
-    await createdPlace.save(); // save the place to the database.
+    const sess = await mongoose.startSession(); // start a new session.
+    sess.startTransaction(); // start a transaction.
+    await createdPlace.save({ session: sess }); // save the place to the database.
+    user.places.push(createdPlace); // push the place to the user's places array.
+    await user.save({ session: sess }); // save the updated user to the database.
+    await sess.commitTransaction(); // commit the transaction.
   } catch (err) {
     const error = new HttpError("Oops! Couldn't create a place! Please try again!", 500);
     console.log(err)
