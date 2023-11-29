@@ -8,6 +8,8 @@ const getCoordinatesForAddress = require("../util/location");
 
 const Place = require("../models/place");
 
+const User = require("../models/user");
+
 let DUMMY_PLACES = [
   {
     id: "p1",
@@ -108,6 +110,17 @@ const createPlace = async (req, res, next) => {
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
     creator: creator,
   }); // create a new place.
+
+  let user;
+
+  try {
+    user = await User.findById(creator); // find the user with the id of creator.
+  } catch (err) {
+    const error = new HttpError("Oops! Something went wrong! Couldn't create a place!", 500);
+    console.log(err);
+    return next(error);
+  }
+
 
   try {
     await createdPlace.save(); // save the place to the database.
