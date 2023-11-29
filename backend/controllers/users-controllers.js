@@ -79,7 +79,7 @@ const signup = async (req, res, next) => {
     ));
   } // check if there are any validation errors.
 
-  const { name, email, password, places } = req.body; // get the data from the request body.
+  const { name, email, password } = req.body; // get the data from the request body.
 
   let existingUser;
 
@@ -102,7 +102,7 @@ const signup = async (req, res, next) => {
     email: email,
     password: password, // this will be encrypted later.
     imageUrl: "https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg", // this will be a url to an image.
-    places: places // this will the placeId a user puts in.
+    places: []
   });
 
   try {
