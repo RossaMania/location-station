@@ -15,12 +15,17 @@ import "./Authenticate.css";
 
 import { useForm } from "../../shared/hooks/form-hook";
 import { useAuth } from "../../shared/hooks/auth-hook";
+import { set } from "mongoose";
 
 const Authenticate = () => {
 
   const auth = useAuth();
 
   const [isLoginMode, setIsLoginMode] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [error, setError] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -70,6 +75,7 @@ const Authenticate = () => {
 
     } else {
       try {
+        setIsLoading(true);
         const response = await fetch("http://localhost:5000/api/users/signup", {
           method: "POST",
           headers: {
@@ -84,15 +90,15 @@ const Authenticate = () => {
         }); // Send a POST request to the signup route.
 
         const responseData = await response.json();
-        console.log(responseData)
-
+        console.log(responseData);
+        setIsLoading(false);
+        auth.login(); // Call the login function from the auth-context.js file.
       } catch (err) {
         console.log(err);
+        setIsLoading(false);
+        setError(err.message || "Oops! Something went wrong! Please try again later!");
       }
-
     }
-
-    auth.login(); // Call the login function from the auth-context.js file.
   };
 
   return (
