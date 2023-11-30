@@ -63,9 +63,35 @@ const Authenticate = () => {
     console.log("SWITCHED!");
   };
 
-  const authSubmitHandler = (event) => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
+
+    if (isLoginMode) {
+
+    } else {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Send the request body as JSON.
+          },
+          body: JSON.stringify({
+            // Convert the form data to JSON.
+            name: formState.inputs.name.value, // Get the name from the formState.
+            email: formState.inputs.email.value, // Get the email from the formState.
+            password: formState.inputs.password.value, // Get the password from the formState.
+          }),
+        }); // Send a POST request to the signup route.
+
+        const responseData = await response.json();
+        console.log(responseData)
+
+      } catch (err) {
+        console.log(err);
+      }
+
+    }
+
     auth.login(); // Call the login function from the auth-context.js file.
   };
 
