@@ -15,7 +15,9 @@ import "./Authenticate.css";
 
 import { useForm } from "../../shared/hooks/form-hook";
 import { useAuth } from "../../shared/hooks/auth-hook";
-import { set } from "mongoose";
+
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const Authenticate = () => {
 
@@ -103,6 +105,7 @@ const Authenticate = () => {
 
   return (
     <Card className="authentication">
+    {isLoading && <LoadingSpinner asOverlay />}
       {
         isLoginMode ? (
           <h2>LOG IN</h2>
