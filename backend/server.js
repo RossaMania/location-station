@@ -14,6 +14,13 @@ const HttpError = require("./models/http-error");
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // allow any domain to send requests to our API.
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"); // allow these headers to be sent.
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE"); // allow these methods to be sent on the front end.
+  next();
+});
+
 app.use(bodyParser.json());
 
 app.use("/api/places", placesRoutes); // => /api/places/...
