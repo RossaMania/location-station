@@ -92,6 +92,11 @@ const Authenticate = () => {
         }); // Send a POST request to the signup route.
 
         const responseData = await response.json();
+
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+
         console.log(responseData);
         setIsLoading(false);
         auth.login(); // Call the login function from the auth-context.js file.
@@ -103,56 +108,69 @@ const Authenticate = () => {
     }
   };
 
+  const errorHandler = () => {
+    setError(null);
+  }
+
   return (
-    <Card className="authentication">
-    {isLoading && <LoadingSpinner asOverlay />}
-      {
-        isLoginMode ? (
-          <h2>LOG IN</h2>
-        ) : (
-          <h2>SIGN UP</h2>
-        ) /* If isLoginMode is true, display "LOG IN". Else, display "SIGN UP". */
-      }
-      <hr />
-      <form onSubmit={authSubmitHandler}>
-        {!isLoginMode && (
+    <>
+      <ErrorModal error={error} onClear={errorHandler} />
+      <Card className="authentication">
+        {isLoading && <LoadingSpinner asOverlay />}
+        {
+          isLoginMode ? (
+            <h2>LOG IN</h2>
+          ) : (
+            <h2>SIGN UP</h2>
+          ) /* If isLoginMode is true, display "LOG IN". Else, display "SIGN UP". */
+        }
+        <hr />
+        <form onSubmit={authSubmitHandler}>
+          {!isLoginMode && (
+            <Input
+              element="input"
+              id="name"
+              type="text"
+              label="Your Name"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter a name."
+              onInput={inputHandler}
+            />
+          )}
           <Input
+            id="email"
             element="input"
-            id="name"
-            type="text"
-            label="Your Name"
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText="Please enter a name."
+            type="email"
+            label="E-Mail"
+            validators={[VALIDATOR_EMAIL()]}
+            errorText="Please enter a valid e-mail address."
             onInput={inputHandler}
           />
-        )}
-        <Input
-          id="email"
-          element="input"
-          type="email"
-          label="E-Mail"
-          validators={[VALIDATOR_EMAIL()]}
-          errorText="Please enter a valid e-mail address."
-          onInput={inputHandler}
-        />
-        <Input
-          id="password"
-          element="input"
-          type="password"
-          label="Password"
-          validators={[VALIDATOR_MINLENGTH(8)]}
-          errorText="Passwords must be at least 8 characters."
-          onInput={inputHandler}
-        />
-        <Button type="submit" disabled={!formState.isValid}>
-          {isLoginMode ? "LOG IN" : "SIGN UP"}
+          <Input
+            id="password"
+            element="input"
+            type="password"
+            label="Password"
+            validators={[VALIDATOR_MINLENGTH(8)]}
+            errorText="Passwords must be at least 8 characters."
+            onInput={inputHandler}
+          />
+          <Button type="submit" disabled={!formState.isValid}>
+            {isLoginMode ? "LOG IN" : "SIGN UP"}
+          </Button>
+        </form>
+        {
+          isLoginMode ? (
+            <h3>Not registered?</h3>
+          ) : (
+            <h3>Already registered?</h3>
+          ) /* If isLoginMode is true, display "Not registered?". Else, display "Already registered?". */
+        }
+        <Button inverse onClick={switchModeHandler}>
+          {isLoginMode ? "SIGN UP" : "LOG IN"}
         </Button>
-      </form>
-      {isLoginMode ? <h3>Not registered?</h3> : <h3>Already registered?</h3> /* If isLoginMode is true, display "Not registered?". Else, display "Already registered?". */}
-      <Button inverse onClick={switchModeHandler}>
-        {isLoginMode ? "SIGN UP" : "LOG IN"}
-      </Button>
-    </Card>
+      </Card>
+    </>
   );
 };
 
