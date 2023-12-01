@@ -1,15 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import UsersList from "../components/UsersList";
 
 const Users = () => {
-  // useEffect() runs once when the component is mounted.
-  // The empty array as the second argument ensures that useEffect() only runs once.
-  // If the second argument is not provided, useEffect() will run every time the component is updated.
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  const [loadedUsers, setLoadedUsers] = useState();
+
   useEffect(() => {
     const sendRequest = async () => {
+      setIsLoading(true);
+  
       const response = await fetch("http://localhost:5000/api/users");
 
       const responseData = await response.json();
+
+      setLoadedUsers(responseData.users)
+      setIsLoading(false);
     };
     sendRequest();
   }, []);
