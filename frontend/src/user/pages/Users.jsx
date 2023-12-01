@@ -32,11 +32,21 @@ const Users = () => {
     sendRequest();
   }, []);
 
+  const errorHandler = () => {
+    setError(null);
+  }
+
   return (
-  <>
-    <UsersList items={loadedUsers} />
-  </>
-  )
+    <>
+      <ErrorModal error={error} onClear={errorHandler} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
+    </>
+  );
 };
 
 export default Users;
