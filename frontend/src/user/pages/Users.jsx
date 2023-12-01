@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import UsersList from "../components/UsersList";
 
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+
 const Users = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -29,7 +32,11 @@ const Users = () => {
     sendRequest();
   }, []);
 
-  return <UsersList items={USERS} />;
+  return (
+  <>
+    <UsersList items={loadedUsers} />
+  </>
+  )
 };
 
 export default Users;
