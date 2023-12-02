@@ -6,39 +6,14 @@ import Button from "../../shared/components/FormElements/Button";
 
 import "./PlaceForm.css";
 import { useForm } from "../../shared/hooks/form-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import Card from "../../shared/components/UIElements/Card";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
-const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "One of the most famous sky scrapers in the world!",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
-    address: "20 W 34th St, New York, NY 10001",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9856644,
-    },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "One of the most famous sky scrapers in the world!",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
-    address: "20 W 34th St, New York, NY 10001",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9856644,
-    },
-    creator: "u2",
-  },
-];
 
 const UpdatePlace = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [loadedPlace, setLoadedPlace] = useState();
   const { placeId } = useParams(); // useParams() returns an object with all the params that were passed in the URL.
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -55,26 +30,28 @@ const UpdatePlace = () => {
     false
   );
 
-  const identifiedPlace = DUMMY_PLACES.find((place) => place.id === placeId); // find the place with the id of placeId.
-
   useEffect(() => {
-    if (identifiedPlace) {
-      setFormData(
-        {
-          title: {
-            value: identifiedPlace.title,
-            isValid: true,
+    const fetchPlace = async () => {
+      try {
+        const responseData = await sendRequest(`http://localhost:5000/api/places/${placeId}`);
+        setLoadedPlace(responseData.place);
+        setFormData(
+          {
+            title: {
+              value: responseData.place.title,
+              isValid: true,
+            },
+            description: {
+              value: responseData.place.description,
+              isValid: true,
+            },
           },
-          description: {
-            value: identifiedPlace.description,
-            isValid: true,
-          },
-        },
-        true
-      );
-    }
-      setIsLoading(false);
-  }, [setFormData, identifiedPlace])
+          true
+        );
+      } catch (err) {}
+    };
+    fetchPlace();
+  }, [sendRequest, placeId, setFormData]);
 
 
   const placeUpdateSubmitHandler = (event) => {
@@ -83,7 +60,7 @@ const UpdatePlace = () => {
   };
 
 
-  if (!identifiedPlace) {
+  if (!loadedPlace) {
     return (
       <div className="center">
         <Card>
@@ -96,7 +73,7 @@ const UpdatePlace = () => {
   if (isLoading) {
     return (
       <div className="center">
-        <h2>Loading... Loading...</h2>
+        <LoadingSpinner />
       </div>
     );
   }
