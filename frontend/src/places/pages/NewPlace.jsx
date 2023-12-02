@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   VALIDATOR_MINLENGTH,
@@ -17,6 +18,8 @@ import { useAuth } from "../../shared/hooks/auth-hook.jsx";
 
 const NewPlace = () => {
   const auth = useAuth();
+
+  const navigate = useNavigate();
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -54,7 +57,7 @@ const NewPlace = () => {
         }),
         { "Content-Type": "application/json" }
       );
-      // Redirect the user to a different page.
+      navigate("/");
     } catch (err) {}
   };
 
