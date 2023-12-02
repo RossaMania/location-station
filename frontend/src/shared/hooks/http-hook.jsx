@@ -23,8 +23,8 @@ export const useHttpClient = () => {
     try {
       const response = await fetch(url, {
         method,
-        headers,
         body,
+        headers,
         // Pass the AbortController's signal to the fetch request so we can abort the request if the user navigates away from the page before the request is complete.
         signal: httpAbortController.signal,
       });
@@ -38,6 +38,7 @@ export const useHttpClient = () => {
         throw new Error(responseData.message);
       }
 
+      setIsLoading(false);
       return responseData;
     } catch (err) {
       console.log(err);

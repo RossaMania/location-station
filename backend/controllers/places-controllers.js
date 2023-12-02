@@ -116,6 +116,8 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }
 
+  console.log(createdPlace)
+  console.log("A place created successfully!")
   res.status(201).json({ place: createdPlace }); // return the created place.
 };
 
