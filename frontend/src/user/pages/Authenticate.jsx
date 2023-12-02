@@ -89,11 +89,11 @@ const Authenticate = () => {
         ); // Send a POST request to the signup route.
 
         console.log(responseData);
-        auth.login(); // Call the login function from the auth-context.js file.
+        auth.login(responseData.user.id); // Call the login function from the auth-context.js file.
         } catch (err) {}
     } else {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
           JSON.stringify({
@@ -107,7 +107,7 @@ const Authenticate = () => {
           }
         ); // Send a POST request to the signup route.
 
-        auth.login(); // Call the login function from the auth-context.js file.
+        auth.login(responseData.user.id); // Call the login function from the auth-context.js file.
       } catch (err) {}
     }
   };

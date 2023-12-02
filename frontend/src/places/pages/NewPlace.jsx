@@ -3,12 +3,19 @@ import React from "react";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators.jsx";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+
 import { useForm } from "../../shared/hooks/form-hook.jsx";
+import { useHttpClient } from "../../shared/hooks/http-hook.jsx";
 
 import "./PlaceForm.css";
+import { useAuth } from "../../shared/hooks/auth-hook.jsx";
 
 
 const NewPlace = () => {
+
+  const auth = useAuth();
+
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler] = useForm({
     title: {
@@ -26,9 +33,16 @@ const NewPlace = () => {
   }, false);
 
 
-  const placeSubmitHandler = (event) => {
+  const placeSubmitHandler = async event => {
     event.preventDefault();
-    console.log(formState.inputs); // console log the formState.inputs. Send to backend later.
+    console.log(formState.inputs);
+
+    sendRequest("http://localhost:5000/api/places", "POST", JSON.stringify({
+      title: formState.inputs.title.value,
+      description: formState.inputs.description.value,
+      address: formState.inputs.address.value,
+      creator: auth.userId
+    }), {});
   }
 
   return (
