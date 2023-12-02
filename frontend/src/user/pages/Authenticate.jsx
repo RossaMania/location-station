@@ -15,6 +15,7 @@ import "./Authenticate.css";
 
 import { useForm } from "../../shared/hooks/form-hook";
 import { useAuth } from "../../shared/hooks/auth-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -25,9 +26,7 @@ const Authenticate = () => {
 
   const [isLoginMode, setIsLoginMode] = useState(true);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [error, setError] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -73,78 +72,49 @@ const Authenticate = () => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
-    setIsLoading(true);
-
     if (isLoginMode) {
       try {
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Send the request body as JSON.
-          },
-          body: JSON.stringify({
+        // Send a POST request with sendRequest.
+        // sendRequest takes 4 arguments: url, method, body, and headers.
+        const responseData = await sendRequest("http://localhost:5000/api/users/login",
+          "POST",
+          JSON.stringify({
             // Convert the form data to JSON.
             email: formState.inputs.email.value, // Get the email from the formState.
             password: formState.inputs.password.value, // Get the password from the formState.
           }),
-        }); // Send a POST request to the signup route.
-
-        const responseData = await response.json();
-
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-
-        console.log(responseData);
-        setIsLoading(false);
-        auth.login(); // Call the login function from the auth-context.js file.
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setError(
-          err.message || "Oops! Something went wrong! Please try again later!"
-        );
-      }
-
-    } else {
-      try {
-        const response = await fetch("http://localhost:5000/api/users/signup", {
-          method: "POST",
-          headers: {
+          {
             "Content-Type": "application/json", // Send the request body as JSON.
           },
-          body: JSON.stringify({
+        ); // Send a POST request to the signup route.
+
+        console.log(responseData);
+        auth.login(); // Call the login function from the auth-context.js file.
+        } catch (err) {}
+    } else {
+      try {
+        await sendRequest(
+          "http://localhost:5000/api/users/signup",
+          "POST",
+          JSON.stringify({
             // Convert the form data to JSON.
             name: formState.inputs.name.value, // Get the name from the formState.
             email: formState.inputs.email.value, // Get the email from the formState.
             password: formState.inputs.password.value, // Get the password from the formState.
           }),
-        }); // Send a POST request to the signup route.
+          {
+            "Content-Type": "application/json", // Send the request body as JSON.
+          }
+        ); // Send a POST request to the signup route.
 
-        const responseData = await response.json();
-
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-
-        console.log(responseData);
-        setIsLoading(false);
         auth.login(); // Call the login function from the auth-context.js file.
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setError(err.message || "Oops! Something went wrong! Please try again later!");
-      }
+      } catch (err) {}
     }
   };
 
-  const errorHandler = () => {
-    setError(null);
-  }
-
   return (
     <>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         {

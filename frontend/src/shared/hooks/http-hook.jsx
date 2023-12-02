@@ -42,8 +42,9 @@ export const useHttpClient = () => {
       setError(
         err.message || "Oops! Something went wrong! Please try again later!"
       );
+      setIsLoading(false);
+      throw err;
     }
-    setIsLoading(false);
   }, []);
 
   const clearError = () => {
