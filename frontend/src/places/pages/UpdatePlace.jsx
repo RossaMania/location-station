@@ -9,6 +9,7 @@ import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 
 const UpdatePlace = () => {
@@ -79,6 +80,8 @@ const UpdatePlace = () => {
   }
 
   return (
+    <>
+    <ErrorModal error={error} onClear={clearError} />
     <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
         id="title"
@@ -104,6 +107,7 @@ const UpdatePlace = () => {
       />
       <Button type="submit" disabled={!formState.isValid}>UPDATE PLACE</Button>
     </form>
+    </>
   );
 };
 
