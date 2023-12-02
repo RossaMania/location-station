@@ -1,6 +1,9 @@
 import React from "react";
 
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/utils/validators.jsx";
+import {
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+} from "../../shared/utils/validators.jsx";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 
@@ -10,40 +13,47 @@ import { useHttpClient } from "../../shared/hooks/http-hook.jsx";
 import "./PlaceForm.css";
 import { useAuth } from "../../shared/hooks/auth-hook.jsx";
 
-
 const NewPlace = () => {
-
   const auth = useAuth();
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const [formState, inputHandler] = useForm({
-    title: {
-      value: "",
-      isValid: false,
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: "",
+        isValid: false,
+      },
+      description: {
+        value: "",
+        isValid: false,
+      },
+      address: {
+        value: "",
+        isValid: false,
+      },
     },
-    description: {
-      value: "",
-      isValid: false,
-    },
-    address: {
-      value: "",
-      isValid: false,
-    }
-  }, false);
+    false
+  );
 
-
-  const placeSubmitHandler = async event => {
+  const placeSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(formState.inputs);
 
-    sendRequest("http://localhost:5000/api/places", "POST", JSON.stringify({
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value,
-      address: formState.inputs.address.value,
-      creator: auth.userId
-    }), {});
-  }
+    try {
+      const responseData = await sendRequest(
+        "http://localhost:5000/api/places",
+        "POST",
+        JSON.stringify({
+          title: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          address: formState.inputs.address.value,
+          creator: auth.userId,
+        }),
+      );
+      // Redirect the user to a different page.
+    } catch (err) {}
+  };
 
   return (
     <form className="place-form" onSubmit={placeSubmitHandler}>
