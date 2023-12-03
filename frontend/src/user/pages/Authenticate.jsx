@@ -99,18 +99,15 @@ const Authenticate = () => {
         } catch (err) {}
     } else {
       try {
+        const formData = new FormData(); // Create a new FormData object.
+        formData.append("email", formState.inputs.email.value); // Append the email to the formData object.
+        formData.append("name", formState.inputs.name.value); // Append the name to the formData object.
+        formData.append("password", formState.inputs.password.value); // Append the password to the formData object.
+        formData.append("image", formState.inputs.image.value); // Append the image to the formData object.
         const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
-          JSON.stringify({
-            // Convert the form data to JSON.
-            name: formState.inputs.name.value, // Get the name from the formState.
-            email: formState.inputs.email.value, // Get the email from the formState.
-            password: formState.inputs.password.value, // Get the password from the formState.
-          }),
-          {
-            "Content-Type": "application/json", // Send the request body as JSON.
-          }
+          formData // Send the formData object.
         ); // Send a POST request to the signup route.
 
         auth.login(responseData.user.id); // Call the login function from the auth-context.js file.
