@@ -46,9 +46,10 @@ const Authenticate = () => {
     if (!isLoginMode) {
       setFormData(
         {
-          // Spread out the inputs. Keep the email and password states, and reset the name to "undefined".
+          // Spread out the inputs. Keep the email and password states, and reset the name and image to "undefined".
           ...formState.inputs,
           name: undefined,
+          image: undefined
         },
         // If the email and password are valid, set the form to valid.
         formState.inputs.email.isValid && formState.inputs.password.isValid
@@ -60,8 +61,12 @@ const Authenticate = () => {
           name: {
             value: "",
             isValid: false
-          } // Set the name to an empty string and isValid to false (because name input is blank.
-        },
+          }, // Set the name to an empty string and isValid to false (because name input is blank.
+        image: {
+          value: null,
+          isValid: false
+        }
+      },
         false // Set the form to invalid since the name input is blank and not valid.
       );
     }
