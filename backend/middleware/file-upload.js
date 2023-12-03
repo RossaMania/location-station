@@ -21,7 +21,7 @@ storage: multer.diskStorage({
     cb(null, uuidv4() + "." + ext); // Set the file name to a unique id and the file extension.
   }
 }),
-fileFilter: () => {
+fileFilter: (req, file, cb) => {
   const isValid = !!MIME_TYPE_MAP[file.mimetype]; // Check if the file type is valid.
   let error = isValid ? null : new Error("Invalid mime type!"); // Set the error to null if the file type is valid.
   cb(error, isValid); // Call the callback function with the error and isValid.

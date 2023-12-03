@@ -23,12 +23,27 @@ const getUsers = async (req, res, next) => {
   res.json({ users: users.map((user) => user.toObject({ getters: true })) }); // return the users.
 };
 
-const getUserById = (req, res, next) => {
+const getUserById = async (req, res, next) => {
   const userId = req.params.userId; // get the user ID from the URL.
-  const user = DUMMY_USERS.find((u) => {
-    return u.id === userId; // find the user with the id of userId.
-  });
-  res.json({ user: user }); // return the user.
+
+  let user;
+  try {
+    user = await User.findById(userId); // find the user with the id of userId.
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching user failed, please try again later",
+      500
+    );
+    console.log(err);
+    return next(error);
+  }
+
+  if (!user) {
+    const error = new HttpError("User not found", 404);
+    return next(error);
+  }
+
+  res.json({ user: user.toObject({ getters: true }) }); // return the user.
 };
 
 const signup = async (req, res, next) => {
