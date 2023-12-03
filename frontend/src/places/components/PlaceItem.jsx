@@ -6,9 +6,13 @@ import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
+
 import { useAuth } from "../../shared/hooks/auth-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const PlaceItem = (props) => {
+
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const auth = useAuth();
 
@@ -28,9 +32,16 @@ const PlaceItem = (props) => {
     setShowConfirmModal(false);
   }
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     console.log("DELETE! DELETE! DELETE!");
     setShowConfirmModal(false);
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/places/${props.id}`,
+        "DELETE"
+      );
+      props.onDelete(props.id);
+    } catch (err) {}
   }
 
   return (
