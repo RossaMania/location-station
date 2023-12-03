@@ -138,7 +138,7 @@ const Authenticate = () => {
             />
           )}
 
-          {!isLoginMode && <ImageUpload center id="image" />}
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
           <Input
             id="email"
             element="input"
