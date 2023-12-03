@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import Button from "./Button"
 
@@ -11,6 +11,19 @@ const ImageUpload = (props) => {
   const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
+
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+
+    const fileReader = new FileReader(); // Create a new file reader object
+
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result); // Set the preview url to the file reader result
+    };
+    fileReader.readAsDataURL(file); // Read the file
+  }, [file])
 
   const pickedFileHandler = event => {
     console.log(event.target); // Console log the file input element
@@ -40,7 +53,7 @@ const ImageUpload = (props) => {
       <input id={props.id} ref={filePickerRef} style={{display: "none"}} type="file" accept=".jpg,.png,.jpeg" onChange={pickedFileHandler}/>
       <div className={`image-upload ${props.center && "center"}`}>
         <div className="image-upload__preview">
-        <img src="" alt="Preview" />
+        <img src={previewUrl} alt="Preview" />
         </div>
         <Button type="button" onClick={pickImageHandler}>PICK IMAGE</Button>
       </div>
