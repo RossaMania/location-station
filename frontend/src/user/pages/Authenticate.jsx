@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -19,6 +18,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 const Authenticate = () => {
 
@@ -137,6 +137,8 @@ const Authenticate = () => {
               onInput={inputHandler}
             />
           )}
+
+          {!isLoginMode && <ImageUpload center id="image" />}
           <Input
             id="email"
             element="input"
