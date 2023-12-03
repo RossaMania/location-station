@@ -84,7 +84,7 @@ const UpdatePlace = () => {
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
-      <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
+      {!isLoading && loadedPlace && <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
         <Input
           id="title"
           element="input"
@@ -110,7 +110,7 @@ const UpdatePlace = () => {
         <Button type="submit" disabled={!formState.isValid}>
           UPDATE PLACE
         </Button>
-      </form>
+      </form>}
     </>
   );
 };
