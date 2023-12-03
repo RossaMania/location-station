@@ -77,6 +77,8 @@ const Authenticate = () => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
+    console.log(formState.inputs); // Console log the formState inputs.
+
     if (isLoginMode) {
       try {
         // Send a POST request with sendRequest.
@@ -93,7 +95,6 @@ const Authenticate = () => {
           },
         ); // Send a POST request to the signup route.
 
-        console.log(responseData);
         auth.login(responseData.user.id); // Call the login function from the auth-context.js file.
         } catch (err) {}
     } else {
