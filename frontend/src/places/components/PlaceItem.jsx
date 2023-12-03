@@ -14,7 +14,6 @@ import { useAuth } from "../../shared/hooks/auth-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const PlaceItem = (props) => {
-
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const auth = useAuth();
@@ -29,11 +28,11 @@ const PlaceItem = (props) => {
 
   const showDeleteWarningHandler = () => {
     setShowConfirmModal(true);
-  }
+  };
 
   const cancelDeleteHandler = () => {
     setShowConfirmModal(false);
-  }
+  };
 
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
@@ -45,7 +44,7 @@ const PlaceItem = (props) => {
       );
       props.onDelete(props.id);
     } catch (err) {}
-  }
+  };
 
   return (
     <>
@@ -98,8 +97,14 @@ const PlaceItem = (props) => {
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            {auth.isLoggedIn && <Button to={`/places/${props.id}`}>EDIT</Button>}
-            {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
+            {auth.userId === props.creatorId && (
+              <Button to={`/places/${props.id}`}>EDIT</Button>
+            )}
+            {auth.userId === props.creatorId && (
+              <Button danger onClick={showDeleteWarningHandler}>
+                DELETE
+              </Button>
+            )}
           </div>
         </Card>
       </li>
