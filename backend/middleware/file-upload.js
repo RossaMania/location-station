@@ -2,6 +2,25 @@ const express = require("express");
 
 const multer = require("multer");
 
-const fileUpload = multer({});
+const { v4: uuidv4 } = require('uuid'); // Import the uuid package.
+
+const MIME_TYPE_MAP = {
+  "image/png": "png",
+  "image/jpeg": "jpeg",
+  "image/jpg": "jpg",
+}; // Create a MIME_TYPE_MAP object.
+
+const fileUpload = multer({
+limits: 500000, // Set the file size limit to 500000 bytes.
+storage: multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/images"); // Set the destination to the uploads/images folder.
+  },
+  filename: (req, file, cb) => {
+    const ext = MIME_TYPE_MAP[file.mimetype]; // Get the file extension.
+    cb(null, uuidv4() + "." + ext); // Set the file name to a unique id and the file extension.
+  },
+})
+});
 
 module.exports = fileUpload;
