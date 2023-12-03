@@ -14,6 +14,21 @@ const ImageUpload = (props) => {
 
   const pickedFileHandler = event => {
     console.log(event.target); // Console log the file input element
+
+    let pickedFile;
+    let fileIsValid = isValid;
+
+    if (event.target.files && event.target.files.length === 1) {
+      pickedFile = event.target.files[0]; // Get the file
+      setFile(pickedFile); // Set the file to the file that is picked
+      setIsValid(true); // Set the file to valid
+      fileIsValid = true; // Set the file to valid
+    } else {
+      setIsValid(false); // Set the file to invalid
+      fileIsValid = false // Set the file to invalid
+    }
+    props.onInput(props.id, pickedFile, fileIsValid); // Send the file to the parent component (NewPlace.jsx)
+
   }
 
   const pickImageHandler = () => {
