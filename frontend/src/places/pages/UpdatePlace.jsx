@@ -61,7 +61,7 @@ const UpdatePlace = () => {
   };
 
 
-  if (!loadedPlace) {
+  if (!loadedPlace && !error) {
     return (
       <div className="center">
         <Card>
