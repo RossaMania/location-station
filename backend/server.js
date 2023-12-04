@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const express = require("express");
 
 require("dotenv").config(); // import dotenv to use environment variables.
@@ -35,6 +37,12 @@ app.use((req, res, next) => {
 }); // This is for routes that don't exist. This middleware will only run if we didn't send a response in any of the above middlewares.
 
 app.use((error, req, res, next) => {
+if (req.file) {
+  fs.unlink(req.file.path, err => {
+    console.log(err);
+  });
+}
+
 if (res.headerSent) {
   return next(error);
 }
