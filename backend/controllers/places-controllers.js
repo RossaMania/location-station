@@ -1,3 +1,5 @@
+const fs = require("fs"); // import fs to delete the image file.
+
 const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
 const { validationResult } = require("express-validator"); // import validationResult to validate the request body.
@@ -179,6 +181,8 @@ const deletePlace = async (req, res, next) => {
     return next(error);
   }
 
+  const imagePath = place.imageUrl; // get the image path from the place.
+
   try {
     const sess = await mongoose.startSession(); // start a new session.
     sess.startTransaction(); // start a transaction.
@@ -191,6 +195,10 @@ const deletePlace = async (req, res, next) => {
     console.log(err)
     return next(error);
   }
+
+  fs.unlink(imagePath, err => {
+    console.log(err)
+  }); // delete the image file.
 
   res.status(200).json({ message: "Yay! Place deleted successfully!" }); // return a message.
 };
