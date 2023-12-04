@@ -81,7 +81,7 @@ const createPlace = async (req, res, next) => {
     description: description,
     address: address,
     location: coordinates,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
+    imageUrl: req.file.path,
     creator: creator,
   }); // create a new place.
 
