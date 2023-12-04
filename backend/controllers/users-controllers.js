@@ -83,7 +83,7 @@ const signup = async (req, res, next) => {
     name: name,
     email: email,
     password: password, // this will be encrypted later.
-    imageUrl: "https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg", // this will be a url to an image.
+    imageUrl: req.file.path, // this will be a url to an image.
     places: [],
   });
 

@@ -14,7 +14,7 @@ const fileUpload = multer({
 limits: 500000, // Set the file size limit to 500000 bytes.
 storage: multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/images"); // Set the destination to the uploads/images folder.
+    cb(null, "backend/uploads/images"); // Set the destination to the uploads/images folder.
   },
   filename: (req, file, cb) => {
     const ext = MIME_TYPE_MAP[file.mimetype]; // Get the file extension.

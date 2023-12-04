@@ -47,7 +47,8 @@ if (res.headerSent) {
   return next(error);
 }
 
-res.status(error.code || 500);
+const statusCode = error.code >= 100 && error.code < 600 ? error.code : 500;
+res.status(statusCode);
 res.json({ message: error.message || "Oops! An unknown error occurred!" });
 
 })
