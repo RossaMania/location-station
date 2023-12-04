@@ -18,9 +18,7 @@ const HttpError = require("./models/http-error");
 
 const app = express();
 
-// app.use("/backend/uploads/images", express.static(path.join("backend", "uploads", "images")));
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/backend/uploads/images", express.static(path.join("backend", "uploads", "images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // allow any domain to send requests to our API.
