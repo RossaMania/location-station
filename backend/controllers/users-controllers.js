@@ -143,12 +143,21 @@ const login = async (req, res, next) => {
   try {
     // compare the password from the request body with the password from the database.
     isValidPassword = await bcrypt.compare(password, existingUser.password);
-  } catch (err) {
+  } catch (err) { // if there is an error, return an error.
     const error = new HttpError(
       "Oops! Could not log you in! Please check your credentials and try again!",
       500
     );
     console.log(err);
+    return next(error);
+  }
+
+  if (!isValidPassword) { // if the password is invalid, return an error.
+    const error = new HttpError(
+      "Oops! Invalid e-mail address OR password! Please try again!",
+      401
+    );
+    console.log(error);
     return next(error);
   }
 
