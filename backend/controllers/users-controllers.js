@@ -180,6 +180,23 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
+let token;
+
+try {
+  token = jwt.sign(
+    { userId: createdUser.id, email: createdUser.email },
+    "supersecret_dont_share",
+    { expiresIn: "2 days" }
+  ); // generate a token. This token will be used to authenticate the user. The token will expire in 2 days.
+} catch (err) {
+  const error = new HttpError(
+    "Oops! Logging in failed! Please try again!",
+    500
+  );
+  console.log(err);
+  return next(error);
+}
+
   res.json({ message: "Yay! Logged in successfully!", user: existingUser.toObject({ getters: true }) });
 };
 
