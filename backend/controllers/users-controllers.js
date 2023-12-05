@@ -2,6 +2,8 @@ const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
 const bcrypt = require("bcryptjs"); // import bcrypt to encrypt the password.
 
+const jwt = require("jsonwebtoken"); // import jsonwebtoken to generate a token.
+
 const { validationResult } = require("express-validator"); // import validationResult to validate the request body.
 
 const HttpError = require("../models/http-error");
@@ -109,6 +111,9 @@ const signup = async (req, res, next) => {
     console.log(err);
     return next(error);
   }
+
+  let token;
+  token = jwt.sign({userId: createdUser.id, email: createdUser.email}, "supersecret_dont_share", {expiresIn: "2 days"}); // generate a token.
 
   res.status(201).json({ user: createdUser.toObject({ getters: true }) }); // return the created user.
 };
