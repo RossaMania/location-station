@@ -113,9 +113,23 @@ const signup = async (req, res, next) => {
   }
 
   let token;
-  token = jwt.sign({userId: createdUser.id, email: createdUser.email}, "supersecret_dont_share", {expiresIn: "2 days"}); // generate a token.
 
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) }); // return the created user.
+  try {
+    token = jwt.sign(
+      { userId: createdUser.id, email: createdUser.email },
+      "supersecret_dont_share",
+      { expiresIn: "2 days" }
+    ); // generate a token. This token will be used to authenticate the user. The token will expire in 2 days.
+  } catch (err) {
+    const error = new HttpError(
+      "Oops! User sign up failed! Please try again!",
+      500
+    );
+    console.log(err);
+    return next(error);
+  }
+
+  res.status(201).json({ userId: createdUser.id, email: createdUser.email, token: token }); // return the created user.
 };
 
 const login = async (req, res, next) => {
