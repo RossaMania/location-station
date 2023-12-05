@@ -1,5 +1,7 @@
 const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
+const bcrypt = require("bcryptjs"); // import bcrypt to encrypt the password.
+
 const { validationResult } = require("express-validator"); // import validationResult to validate the request body.
 
 const HttpError = require("../models/http-error");
@@ -79,10 +81,20 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
+  let hashedPassword;
+
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    const error = new HttpError("Oops! Could not create user!", 500);
+    console.log(err);
+    return next(error);
+  }
+
   const createdUser = new User({
     name: name,
     email: email,
-    password: password, // this will be encrypted later.
+    password: hashedPassword, // this will be encrypted later.
     imageUrl: req.file.path, // this will be a url to an image.
     places: [],
   });
