@@ -128,10 +128,9 @@ const updatePlace = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     console.log(errors);
-    return next(new HttpError(
-      "Oops! Invalid inputs passed! Please check your data!",
-      422
-    ));
+    return next(
+      new HttpError("Oops! Invalid inputs passed! Please check your data!", 422)
+    );
   } // check if there are any validation errors.
 
   const { title, description } = req.body; // get the data from the request body.
@@ -143,8 +142,20 @@ const updatePlace = async (req, res, next) => {
   try {
     place = await Place.findById(placeId); // find the place with the id of placeId.
   } catch (err) {
-    const error = new HttpError("Oops! Something went wrong! Couldn't find a place to update!", 500);
-    console.log(err)
+    const error = new HttpError(
+      "Oops! Something went wrong! Couldn't find a place to update!",
+      500
+    );
+    console.log(err);
+    return next(error);
+  }
+
+  // check if the user ID of the creator of the place matches the user ID from the request body of the user who is trying to update the place.
+  if (place.creator.toString() !== req.userData.userId) {
+    const error = new HttpError(
+      "Oops! You are not allowed to edit this place!", // if the user ID's don't match, return an error.
+      401
+    );
     return next(error);
   }
 
@@ -155,8 +166,11 @@ const updatePlace = async (req, res, next) => {
   try {
     await place.save(); // save the place to the database.
   } catch (err) {
-    const error = new HttpError("Oops! Something went wrong! Couldn't update the place!", 500);
-    console.log(err)
+    const error = new HttpError(
+      "Oops! Something went wrong! Couldn't update the place!",
+      500
+    );
+    console.log(err);
     return next(error);
   }
 
