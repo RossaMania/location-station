@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid"); // import uuid to generate a random ID.
 
-const bcrypt = require("bcryptjs"); // import bcrypt to encrypt the password.
+const bcrypt = require("bcrypt"); // import bcrypt to encrypt the password.
 
 const jwt = require("jsonwebtoken"); // import jsonwebtoken to generate a token.
 
