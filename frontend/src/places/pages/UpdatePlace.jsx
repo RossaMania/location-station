@@ -74,7 +74,8 @@ const UpdatePlace = () => {
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
         }),
-        { "Content-Type": "application/json" }
+        { "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token } // Send the token in the headers.
       );
       console.log(formState.inputs)
       navigate("/" + auth.userId + "/places");
