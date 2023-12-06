@@ -184,7 +184,7 @@ let token;
 
 try {
   token = jwt.sign(
-    { userId: createdUser.id, email: createdUser.email },
+    { userId: existingUser.id, email: existingUser.email },
     "supersecret_dont_share",
     { expiresIn: "2 days" }
   ); // generate a token. This token will be used to authenticate the user. The token will expire in 2 days.
@@ -197,7 +197,13 @@ try {
   return next(error);
 }
 
-  res.json({ message: "Yay! Logged in successfully!", user: existingUser.toObject({ getters: true }) });
+res.json({
+  message: "Yay! Logged in successfully!",
+  userId: existingUser.id,
+  email: existingUser.email,
+  token: token,
+}); // return the existing user.
+  // res.json({ message: "Yay! Logged in successfully!", user: existingUser.toObject({ getters: true }) });
 };
 
 exports.getUsers = getUsers;
