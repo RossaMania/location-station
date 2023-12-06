@@ -4,6 +4,10 @@ const HttpError = require("../models/http-error");
 
 module.exports = (req, res, next) => {
 
+  if (req.method === "OPTIONS") {
+    return next();
+  }
+
   try {
     // get the token from the request headers. Authorization: "Bearer TOKEN" Split at the space and get the second element of the array.
     const token = req.headers.authorization.split(" ")[1];
