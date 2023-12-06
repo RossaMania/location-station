@@ -185,13 +185,29 @@ const deletePlace = async (req, res, next) => {
   try {
     place = await Place.findById(placeId).populate("creator"); // find the place with the id of placeId.
   } catch (err) {
-    const error = new HttpError("Oops! Something went wrong! Couldn't find a place to delete!", 500);
-    console.log(err)
+    const error = new HttpError(
+      "Oops! Something went wrong! Couldn't find a place to delete!",
+      500
+    );
+    console.log(err);
     return next(error);
   }
 
   if (!place) {
-    const error = new HttpError("Oops! No existing place found with that ID!", 404);
+    const error = new HttpError(
+      "Oops! No existing place found with that ID!",
+      404
+    );
+    return next(error);
+  }
+
+  // check if the user ID of the creator of the place matches the user ID from the request body of the user who is trying to delete the place.
+  // place.creator.id is Place model's creator field, which is a reference to the User model and has that ObjectId field.
+  if (place.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      "Oops! You are not allowed to delete this place!", // if the user ID's don't match, return an error.
+      401
+    );
     return next(error);
   }
 
@@ -205,13 +221,16 @@ const deletePlace = async (req, res, next) => {
     await place.creator.save({ session: sess }); // save the updated creator to the database.
     await sess.commitTransaction(); // commit the transaction.
   } catch (err) {
-    const error = new HttpError("Oops! Something went wrong! Couldn't delete the place!", 500);
-    console.log(err)
+    const error = new HttpError(
+      "Oops! Something went wrong! Couldn't delete the place!",
+      500
+    );
+    console.log(err);
     return next(error);
   }
 
-  fs.unlink(imagePath, err => {
-    console.log(err)
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
   }); // delete the image file.
 
   res.status(200).json({ message: "Yay! Place deleted successfully!" }); // return a message.
