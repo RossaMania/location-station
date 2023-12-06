@@ -95,7 +95,7 @@ const Authenticate = () => {
           },
         ); // Send a POST request to the signup route.
 
-        auth.login(responseData.user.id); // Call the login function from the auth-context.js file.
+        auth.login(responseData.userId, responseData.token); // Call the login function from the auth-context.js file.
         } catch (err) {
           console.error(err);
         }
@@ -112,7 +112,7 @@ const Authenticate = () => {
           formData // Send the formData object.
         ); // Send a POST request to the signup route.
 
-        auth.login(responseData.user.id); // Call the login function from the auth-context.js file.
+        auth.login(responseData.userId, responseData.token); // Call the login function from the auth-context.js file.
       } catch (err) {
         console.error(err);
       }
