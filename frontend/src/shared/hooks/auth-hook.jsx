@@ -4,27 +4,29 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext({
   isLoggedIn: false,
   userId: null,
+  token: null,
   login: () => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({children}) => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); Replaced by token, setToken.
+  const [userId, setUserId] = useState(false);
 
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setToken(token); // set the token
     setUserId(uid); // set the user id
     navigate("/"); // navigate to the home page
   }, [navigate]);
 
   // call this function to sign out logged in user
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null); // set the token to null
     setUserId(null); // set the user id to null
     navigate("/auth"); // navigate to the authentication page
   }, [navigate]);
@@ -32,7 +34,7 @@ export const AuthProvider = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout }}
+      value={{ isLoggedIn: !!token, token: token, userId: userId, login: login, logout: logout }}
     >
       {children}
     </AuthContext.Provider>
