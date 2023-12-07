@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from "react"
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext({
@@ -35,6 +35,15 @@ export const AuthProvider = ({children}) => {
     navigate("/auth"); // navigate to the authentication page
   }, [navigate]);
 
+   useEffect(() => {
+     //This stored data will be an object with the userId and token.
+     const storedData = JSON.parse(localStorage.getItem("userData"));
+
+     if (storedData && storedData.token) {
+       // setIsLoggedIn(true); Replaced by setToken.
+       login(storedData.userId, storedData.token);
+     }
+   }, [login]);
 
   return (
     <AuthContext.Provider
