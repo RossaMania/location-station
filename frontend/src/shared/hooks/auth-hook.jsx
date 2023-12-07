@@ -21,6 +21,10 @@ export const AuthProvider = ({children}) => {
   const login = useCallback((uid, token) => {
     setToken(token); // set the token
     setUserId(uid); // set the user id
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({ userId: uid, token: token })
+    ); // store the token in the local storage
     navigate("/"); // navigate to the home page
   }, [navigate]);
 
