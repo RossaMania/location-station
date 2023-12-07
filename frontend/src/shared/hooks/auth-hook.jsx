@@ -18,12 +18,16 @@ export const AuthProvider = ({children}) => {
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, expirationDate) => {
     setToken(token); // set the token
     setUserId(uid); // set the user id
+
+    const tokenExpirationDate =  expirationDate || new Date(
+      new Date().getTime() + 1000 * 60 * 60 * 24 * 2
+    ); // calculate the expiration date of the token
     localStorage.setItem(
       "userData",
-      JSON.stringify({ userId: uid, token: token })
+      JSON.stringify({ userId: uid, token: token, expiration: tokenExpirationDate.toISOString() })
     ); // store the token in the local storage
     navigate("/"); // navigate to the home page
   }, [navigate]);
@@ -40,9 +44,9 @@ export const AuthProvider = ({children}) => {
      //This stored data will be an object with the userId and token.
      const storedData = JSON.parse(localStorage.getItem("userData"));
 
-     if (storedData && storedData.token) {
+     if (storedData && storedData.token && new Date(storedData.expiration) > new Date()) {
        // setIsLoggedIn(true); Replaced by setToken.
-       login(storedData.userId, storedData.token);
+       login(storedData.userId, storedData.token, new Date(storedData.expiration));
      }
    }, [login]);
 
