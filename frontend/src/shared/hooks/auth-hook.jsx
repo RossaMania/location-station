@@ -32,6 +32,7 @@ export const AuthProvider = ({children}) => {
   const logout = useCallback(() => {
     setToken(null); // set the token to null
     setUserId(null); // set the user id to null
+    localStorage.removeItem("userData"); // remove the token from the local storage
     navigate("/auth"); // navigate to the authentication page
   }, [navigate]);
 
