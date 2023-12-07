@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
   // call this function to sign out logged in user
   const logout = useCallback(() => {
     setToken(null); // set the token to null
+    setTokenExpirationCountdown(null); // set the token expiration countdown to null
     setUserId(null); // set the user id to null
     localStorage.removeItem("userData"); // remove the token from the local storage
     navigate("/auth"); // navigate to the authentication page
