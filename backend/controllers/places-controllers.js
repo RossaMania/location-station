@@ -68,7 +68,7 @@ const createPlace = async (req, res, next) => {
     );
   } // check if there are any validation errors.
 
-  const { title, description, address, creator } = req.body; // get the data from the request body.
+  const { title, description, address } = req.body; // get the data from the request body.
 
   let coordinates;
 
@@ -84,7 +84,7 @@ const createPlace = async (req, res, next) => {
     address: address,
     location: coordinates,
     imageUrl: req.file.path,
-    creator: creator,
+    creator: req.userData.userId // get the user ID from the check-auth middleware.
   }); // create a new place.
 
   let user;
