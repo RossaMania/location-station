@@ -13,6 +13,7 @@ export const useHttpClient = () => {
     headers = {}
   ) => {
     setIsLoading(true);
+    console.log(url);
 
     // Create a new AbortController object.
     // This will allow us to abort the request if the user navigates away from the page before the request is complete.
