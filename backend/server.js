@@ -31,21 +31,26 @@ app.use("/api/places", placesRoutes); // => /api/places/...
 
 app.use("/api/users", usersRoutes); // => /api/users/...
 
-const __dirname = path.resolve();
+const __dirname = path.resolve(); // Set __dirname to the current directory name.
 
-app.use(express.static(path.join(__dirname, "/frontend/build")));
+// We want the server to load the production server or the build server when in production.
+// A test to see if we're in production. If we're in production, then we want to set a static folder.
+if (process.env.NODE_ENV === "production") {
+  // set static folder
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
 
-app.use((req, res, next) => {
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-});
-
-
-// app.use((req, res, next) => {
-
-//   const error = new HttpError("Oops! This route doesn't exist!", 404);
-//   throw error;
-
-// }); // This is for routes that don't exist. This middleware will only run if we didn't send a response in any of the above middlewares.
+  // any route that is not api routes will be redirected to index.html
+  app.get("*", (req, res) =>
+    // load the index.html file that's in the frontend/build folder which we just made static.
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  //If we're not in production, then run the following code to set up our API routes on the dev server.
+  //Routes
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
 
 app.use((error, req, res, next) => {
 if (req.file) {
