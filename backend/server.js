@@ -31,6 +31,7 @@ app.use("/api/places", placesRoutes); // => /api/places/...
 
 app.use("/api/users", usersRoutes); // => /api/users/...
 
+const __dirname = path.resolve();
 
 app.use(express.static(path.join(__dirname, "/frontend/build")));
 
