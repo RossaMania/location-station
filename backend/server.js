@@ -34,11 +34,16 @@ app.use("/api/places", placesRoutes); // => /api/places/...
 app.use("/api/users", usersRoutes); // => /api/users/...
 
 app.use((req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+});
 
-  const error = new HttpError("Oops! This route doesn't exist!", 404);
-  throw error;
 
-}); // This is for routes that don't exist. This middleware will only run if we didn't send a response in any of the above middlewares.
+// app.use((req, res, next) => {
+
+//   const error = new HttpError("Oops! This route doesn't exist!", 404);
+//   throw error;
+
+// }); // This is for routes that don't exist. This middleware will only run if we didn't send a response in any of the above middlewares.
 
 app.use((error, req, res, next) => {
 if (req.file) {
