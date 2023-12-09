@@ -6,7 +6,7 @@ const express = require("express");
 
 require("dotenv").config(); // import dotenv to use environment variables.
 
-import connectDB from "./config/db.js";
+const connectDB = require("./config/db.js");
 
 const bodyParser = require("body-parser");
 
