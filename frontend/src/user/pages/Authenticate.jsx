@@ -83,7 +83,8 @@ const Authenticate = () => {
       try {
         // Send a POST request with sendRequest.
         // sendRequest takes 4 arguments: url, method, body, and headers.
-        const responseData = await sendRequest(`${process.env.REACT_APP_API_URL}/api/users/login`,
+        const responseData = await sendRequest(
+          "https://location-station.onrender.com//api/users/login",
           "POST",
           JSON.stringify({
             // Convert the form data to JSON.
@@ -92,7 +93,7 @@ const Authenticate = () => {
           }),
           {
             "Content-Type": "application/json", // Send the request body as JSON.
-          },
+          }
         ); // Send a POST request to the signup route.
 
         auth.login(responseData.userId, responseData.token); // Call the login function from the auth-context.js file.
@@ -107,7 +108,7 @@ const Authenticate = () => {
         formData.append("password", formState.inputs.password.value); // Append the password to the formData object.
         formData.append("image", formState.inputs.image.value); // Append the image to the formData object.
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/signup`,
+          "https://location-station.onrender.com//api/users/signup",
           "POST",
           formData // Send the formData object.
         ); // Send a POST request to the signup route.
