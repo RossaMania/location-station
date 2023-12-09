@@ -40,7 +40,7 @@ app.use("/api/users", usersRoutes); // => /api/users/...
 // A test to see if we're in production. If we're in production, then we want to set a static folder.
 if (process.env.NODE_ENV === "production") {
   // set static folder
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
 
   // any route that is not api routes will be redirected to index.html
   app.get("*", (req, res) =>
