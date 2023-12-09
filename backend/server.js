@@ -35,10 +35,6 @@ app.use("/api/places", placesRoutes); // => /api/places/...
 
 app.use("/api/users", usersRoutes); // => /api/users/...
 
-
-// We want the server to load the production server or the build server when in production.
-// A test to see if we're in production. If we're in production, then we want to set a static folder.
-if (process.env.NODE_ENV === "production") {
   // set static folder
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
@@ -47,13 +43,6 @@ if (process.env.NODE_ENV === "production") {
     // load the index.html file that's in the frontend/build folder which we just made static.
     res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"))
   );
-} else {
-  //If we're not in production, then run the following code to set up our API routes on the dev server.
-  //Routes
-  app.get("/", (req, res) => {
-    res.send("API is running...");
-  });
-}
 
 app.use((error, req, res, next) => {
 if (req.file) {
