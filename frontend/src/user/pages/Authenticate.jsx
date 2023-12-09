@@ -83,7 +83,7 @@ const Authenticate = () => {
       try {
         // Send a POST request with sendRequest.
         // sendRequest takes 4 arguments: url, method, body, and headers.
-        const responseData = await sendRequest("http://localhost:5000/api/users/login",
+        const responseData = await sendRequest(`${process.env.REACT_APP_API_URL}/api/users/login`,
           "POST",
           JSON.stringify({
             // Convert the form data to JSON.

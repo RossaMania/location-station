@@ -39,7 +39,7 @@ const PlaceItem = (props) => {
     console.log("Delete button clicked!");
     try {
       await sendRequest(
-        `http://localhost:5000/api/places/${props.id}`,
+        `${process.env.REACT_APP_API_URL}/api/places/${props.id}`,
         "DELETE",
         null, // No body needed for DELETE requests. Set body to null.
         {
@@ -90,7 +90,7 @@ const PlaceItem = (props) => {
         <Card className="place-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
-            <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
+            <img src={`${process.env.REACT_APP_API_URL}/${props.image}`} alt={props.title} />
           </div>
           <div className="place-item__info">
             <h2>{props.title}</h2>

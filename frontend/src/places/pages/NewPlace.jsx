@@ -59,11 +59,13 @@ const NewPlace = () => {
       formData.append("image", formState.inputs.image.value);
 
       await sendRequest(
-        "http://localhost:5000/api/places",
+        `${process.env.REACT_APP_API_URL}/api/places`,
         "POST",
-        formData, {
-          Authorization: "Bearer " + auth.token
-        });
+        formData,
+        {
+          Authorization: "Bearer " + auth.token,
+        }
+      );
       navigate("/" + auth.userId + "/places");
     } catch (err) {}
   };
