@@ -107,7 +107,7 @@ const Authenticate = () => {
         formData.append("password", formState.inputs.password.value); // Append the password to the formData object.
         formData.append("image", formState.inputs.image.value); // Append the image to the formData object.
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users/signup",
+          `http://localhost:5000/api/users/signup`,
           "POST",
           formData // Send the formData object.
         ); // Send a POST request to the signup route.
