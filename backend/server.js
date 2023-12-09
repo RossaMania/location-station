@@ -8,13 +8,9 @@ require("dotenv").config(); // import dotenv to use environment variables.
 
 const bodyParser = require("body-parser");
 
-const mongoose = require("mongoose");
-
 const placesRoutes = require("./routes/places-routes");
 
 const usersRoutes = require("./routes/users-routes");
-
-const HttpError = require("./models/http-error");
 
 const port = process.env.PORT;
 
@@ -64,11 +60,6 @@ res.json({ message: error.message || "Oops! An unknown error occurred!" });
 
 })
 
-
-mongoose.connect(process.env.MONGO_URI).then(() => {
-  app.listen(5000 || port, () => {console.log(`Server is running on port ${port}`)});
-}).catch(error => {
-  console.log(error)
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-
-
