@@ -6,6 +6,8 @@ const express = require("express");
 
 require("dotenv").config(); // import dotenv to use environment variables.
 
+import connectDB from "./config/db.js";
+
 const bodyParser = require("body-parser");
 
 const placesRoutes = require("./routes/places-routes");
@@ -13,6 +15,8 @@ const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
 
 const port = process.env.PORT;
+
+connectDB(); // Connect to MongoDB
 
 const app = express();
 
