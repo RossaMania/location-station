@@ -32,7 +32,7 @@ export const useHttpClient = () => {
 
       const responseData = await response.json();
 
-      activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortController) // Filter out the AbortController object from the activeHttpRequests array.
+      activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortController); // Filter out the AbortController object from the activeHttpRequests array.
 
       if (!response.ok) {
         console.log(responseData.message);
