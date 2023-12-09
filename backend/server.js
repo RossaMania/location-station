@@ -31,7 +31,6 @@ app.use("/api/places", placesRoutes); // => /api/places/...
 
 app.use("/api/users", usersRoutes); // => /api/users/...
 
-const __dirname = path.resolve(); // Set __dirname to the current directory name.
 
 // We want the server to load the production server or the build server when in production.
 // A test to see if we're in production. If we're in production, then we want to set a static folder.
