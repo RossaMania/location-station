@@ -84,7 +84,7 @@ const Authenticate = () => {
         // Send a POST request with sendRequest.
         // sendRequest takes 4 arguments: url, method, body, and headers.
         const responseData = await sendRequest(
-          "https://location-station.onrender.com//api/users/login",
+          "https://location-station.onrender.com/api/users/login",
           "POST",
           JSON.stringify({
             // Convert the form data to JSON.
@@ -108,7 +108,7 @@ const Authenticate = () => {
         formData.append("password", formState.inputs.password.value); // Append the password to the formData object.
         formData.append("image", formState.inputs.image.value); // Append the image to the formData object.
         const responseData = await sendRequest(
-          "https://location-station.onrender.com//api/users/signup",
+          "https://location-station.onrender.com/api/users/signup",
           "POST",
           formData // Send the formData object.
         ); // Send a POST request to the signup route.
