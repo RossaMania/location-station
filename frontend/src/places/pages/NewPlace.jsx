@@ -18,8 +18,6 @@ import { useHttpClient } from "../../shared/hooks/http-hook.jsx";
 import "./PlaceForm.css";
 import { useAuth } from "../../shared/hooks/auth-hook.jsx";
 
-const apiUrl = process.env.REACT_APP_API_URL
-
 const NewPlace = () => {
   const auth = useAuth();
 
@@ -61,7 +59,7 @@ const NewPlace = () => {
       formData.append("image", formState.inputs.image.value);
 
       await sendRequest(
-        `${apiUrl}/api/places`,
+        "https://location-station.onrender.com/api/places",
         "POST",
         formData,
         {

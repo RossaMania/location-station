@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
-const apiUrl = process.env.REACT_APP_API_URL
-
 const UserPlaces = () => {
   const [loadedPlaces, setLoadedPlaces] = useState();
 
@@ -19,7 +17,7 @@ const UserPlaces = () => {
     const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `${apiUrl}/api/places/user/${userId}`
+          `https://location-station.onrender.com/api/places/user/${userId}`
         );
         setLoadedPlaces(responseData.places);
 
