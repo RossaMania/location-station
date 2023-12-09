@@ -64,7 +64,7 @@ res.json({ message: error.message || "Oops! An unknown error occurred!" });
 
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-  app.listen(5000);
+  app.listen(5000 || PORT);
 }).catch(error => {
   console.log(error)
 });
