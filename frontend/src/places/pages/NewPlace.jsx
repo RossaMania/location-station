@@ -64,7 +64,7 @@ const NewPlace = () => {
         formData, {
           Authorization: "Bearer " + auth.token
         });
-      navigate("/");
+      navigate("/" + auth.userId + "/places");
     } catch (err) {}
   };
 
