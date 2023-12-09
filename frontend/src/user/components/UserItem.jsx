@@ -6,6 +6,8 @@ import Card from "../../shared/components/UIElements/Card";
 
 import "./UserItem.css";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const UserItem = (props) => {
   return (
     <li className="user-item">
@@ -13,7 +15,7 @@ const UserItem = (props) => {
         <Link to={`/${props.id}/places`}>
           <div className="user-item__image">
             <Avatar
-              image={`${process.env.REACT_APP_API_URL}/${props.imageUrl}`}
+              image={`${apiUrl}/${props.imageUrl}`}
               alt={props.name}
             />
           </div>

@@ -6,6 +6,8 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Users = () => {
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -15,7 +17,7 @@ const Users = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          "https://location-station.onrender.com/api/users"
+          `${apiUrl}/api/users`
         );
 
 

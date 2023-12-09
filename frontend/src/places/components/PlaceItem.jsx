@@ -13,6 +13,8 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useAuth } from "../../shared/hooks/auth-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const PlaceItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -39,7 +41,7 @@ const PlaceItem = (props) => {
     console.log("Delete button clicked!");
     try {
       await sendRequest(
-        `${process.env.REACT_APP_API_URL}/api/places/${props.id}`,
+        `${apiUrl}/api/places/${props.id}`,
         "DELETE",
         null, // No body needed for DELETE requests. Set body to null.
         {
@@ -90,7 +92,7 @@ const PlaceItem = (props) => {
         <Card className="place-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
-            <img src={`${process.env.REACT_APP_API_URL}/${props.image}`} alt={props.title} />
+            <img src={`${apiUrl}/${props.image}`} alt={props.title} />
           </div>
           <div className="place-item__info">
             <h2>{props.title}</h2>

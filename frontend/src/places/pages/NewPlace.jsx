@@ -18,6 +18,8 @@ import { useHttpClient } from "../../shared/hooks/http-hook.jsx";
 import "./PlaceForm.css";
 import { useAuth } from "../../shared/hooks/auth-hook.jsx";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const NewPlace = () => {
   const auth = useAuth();
 
@@ -59,7 +61,7 @@ const NewPlace = () => {
       formData.append("image", formState.inputs.image.value);
 
       await sendRequest(
-        `${process.env.REACT_APP_API_URL}/api/places`,
+        `${apiUrl}/api/places`,
         "POST",
         formData,
         {

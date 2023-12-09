@@ -15,6 +15,8 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useAuth } from "../../shared/hooks/auth-hook";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const UpdatePlace = () => {
 
   const auth = useAuth();
@@ -43,7 +45,7 @@ const UpdatePlace = () => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_API_URL}/api/places/${placeId}`
+          `${apiUrl}/api/places/${placeId}`
         );
         setLoadedPlace(responseData.place);
         setFormData(
@@ -68,7 +70,7 @@ const UpdatePlace = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `${process.env.REACT_APP_API_URL}/api/places/${placeId}`,
+        `${apiUrl}/api/places/${placeId}`,
         "PATCH",
         JSON.stringify({
           title: formState.inputs.title.value,
