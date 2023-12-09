@@ -16,6 +16,8 @@ const usersRoutes = require("./routes/users-routes");
 
 const HttpError = require("./models/http-error");
 
+const port = process.env.PORT;
+
 const app = express();
 
 app.use("/backend/uploads/images", express.static(path.join("backend", "uploads", "images")));
@@ -64,7 +66,7 @@ res.json({ message: error.message || "Oops! An unknown error occurred!" });
 
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-  app.listen(5000 || PORT);
+  app.listen(5000 || port, () => {console.log(`Server is running on port ${port}`)});
 }).catch(error => {
   console.log(error)
 });
