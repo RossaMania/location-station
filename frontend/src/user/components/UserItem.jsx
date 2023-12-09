@@ -6,7 +6,7 @@ import Card from "../../shared/components/UIElements/Card";
 
 import "./UserItem.css";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = process.env.REACT_APP_API_URL
 
 const UserItem = (props) => {
   return (

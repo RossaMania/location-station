@@ -13,7 +13,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useAuth } from "../../shared/hooks/auth-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = process.env.REACT_APP_API_URL
 
 const PlaceItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
