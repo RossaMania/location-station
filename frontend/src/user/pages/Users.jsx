@@ -14,12 +14,16 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const responseData = await sendRequest(`${process.env.REACT_APP_API_URL}/api/users`);
+        const responseData = await sendRequest(
+          "https://location-station.onrender.com/api/users"
+        );
 
 
 
         setLoadedUsers(responseData.users);
-      } catch (err) {}
+      } catch (err) {
+        return err?.message;
+      }
     };
     fetchUsers();
   }, [sendRequest]);
