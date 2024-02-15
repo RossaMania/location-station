@@ -1,6 +1,6 @@
 # Location Station
 
-This is an app I did as part of a "code along" course on Udemy. It is a full stack app that uses React, Express, Node, and MongoDB.
+This is an app I did as part of a "code along" course on Udemy. It is a full stack app that uses React, Express, Node, and MongoDB. This app allows users to "check in" to places they have been. This functionality is similar to FourSquare and other apps!
 
 ## Features
 
